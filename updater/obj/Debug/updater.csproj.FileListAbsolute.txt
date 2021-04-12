@@ -1,0 +1,6 @@
+C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Debug\updater.exe.config
+C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Debug\updater.exe
+C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Debug\updater.pdb
+C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Debug\updater.csproj.CoreCompileInputs.cache
+C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Debug\updater.exe
+C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Debug\updater.pdb

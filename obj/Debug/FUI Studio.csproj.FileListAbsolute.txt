@@ -1,0 +1,27 @@
+C:\Users\phoen\source\repos\FUI Studio\bin\Debug\FUI Studio.exe.config
+C:\Users\phoen\source\repos\FUI Studio\bin\Debug\FUI Studio.exe
+C:\Users\phoen\source\repos\FUI Studio\bin\Debug\FUI Studio.pdb
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI Studio.csprojAssemblyReference.cache
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI_Studio.Form1.resources
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI_Studio.Properties.Resources.resources
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI Studio.csproj.GenerateResource.cache
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI Studio.csproj.CoreCompileInputs.cache
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI Studio.exe
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI Studio.pdb
+C:\Users\phoen\source\repos\FUI Studio\obj\Debug\FUI_Studio.Forms.about.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.csprojAssemblyReference.cache
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI_Studio.Forms.about.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI_Studio.Forms.Form1.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI_Studio.Properties.Resources.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.csproj.GenerateResource.cache
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.csproj.CoreCompileInputs.cache
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.TrustInfo.xml
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.exe.manifest
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.application
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.exe
+C:\Users\phoen\source\repos\##FUI Studio\obj\Debug\FUI Studio.pdb
+C:\Users\phoen\source\repos\##FUI Studio\bin\Debug\FUI Studio.exe.config
+C:\Users\phoen\source\repos\##FUI Studio\bin\Debug\FUI Studio.exe.manifest
+C:\Users\phoen\source\repos\##FUI Studio\bin\Debug\FUI Studio.application
+C:\Users\phoen\source\repos\##FUI Studio\bin\Debug\FUI Studio.exe
+C:\Users\phoen\source\repos\##FUI Studio\bin\Debug\FUI Studio.pdb
