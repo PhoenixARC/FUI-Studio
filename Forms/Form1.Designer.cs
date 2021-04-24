@@ -42,11 +42,11 @@ namespace FUI_Studio.Forms
             this.openWorkingDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.UPDATEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.UPDATEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new FUI_Studio.PictureBoxWithInterpolationMode();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -62,6 +62,7 @@ namespace FUI_Studio.Forms
             this.treeView1.Size = new System.Drawing.Size(246, 633);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // contextMenuStrip1
             // 
@@ -146,6 +147,15 @@ namespace FUI_Studio.Forms
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // UPDATEToolStripMenuItem
+            // 
+            this.UPDATEToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.UPDATEToolStripMenuItem.Name = "UPDATEToolStripMenuItem";
+            this.UPDATEToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.UPDATEToolStripMenuItem.Text = "UPDATE";
+            this.UPDATEToolStripMenuItem.Visible = false;
+            this.UPDATEToolStripMenuItem.Click += new System.EventHandler(this.UPDATEToolStripMenuItem_Click);
+            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
@@ -170,6 +180,17 @@ namespace FUI_Studio.Forms
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Default;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1115, 281);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -182,26 +203,6 @@ namespace FUI_Studio.Forms
             this.checkBox1.Text = "Correct Color";
             this.checkBox1.UseVisualStyleBackColor = false;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // UPDATEToolStripMenuItem
-            // 
-            this.UPDATEToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.UPDATEToolStripMenuItem.Name = "UPDATEToolStripMenuItem";
-            this.UPDATEToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.UPDATEToolStripMenuItem.Text = "UPDATE";
-            this.UPDATEToolStripMenuItem.Visible = false;
-            this.UPDATEToolStripMenuItem.Click += new System.EventHandler(this.UPDATEToolStripMenuItem_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Default;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1115, 281);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 

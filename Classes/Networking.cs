@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FUI_Studio.Classes
 {
     public static class Networking
     {
-        public static string ver = "1.0";
+        public static string ver = "1.1";
         static string url = "https://www.pckstudio.tk/studio/FUI/api/update.txt";
         static string backupurl = "https://phoenixarc.github.io/pckstudio.tk/studio/FUI/api/update.txt";
         public static bool NeedsUpdate = false;

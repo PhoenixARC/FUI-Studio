@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,27 @@ namespace FUI_Studio
         [STAThread]
         static void Main(string[] args)
         {
+            if (args.Length > 0)
+            {
+                if (args[0] == "true" || args[1] == "true")
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Forms.Debug(args));
+                }
+                else
+                {
+                    Application.EnableVisualStyles();
+                    Application.SetCompatibleTextRenderingDefault(false);
+                    Application.Run(new Forms.Form1(args, false, true));
+                }
+            }
+            else
+            {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Forms.Form1(args));
+                Application.Run(new Forms.Form1(args, false, true));
+            }
         }
     }
 }

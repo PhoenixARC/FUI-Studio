@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="179272">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="332360">
       <assemblyIdentity name="FUI Studio" version="1.0.0.0" publicKeyToken="DCF95BD3166763B7" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>d0usII4D+HkvXBmhOzUzbr6RhrhwvBM6WZaEwW7TPhY=</dsig:DigestValue>
+        <dsig:DigestValue>hYNIJB0eMFl7A9arXx/UrdojJgeNTkMPAYWD4hv9AUU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

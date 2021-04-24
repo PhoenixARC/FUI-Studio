@@ -28,3 +28,6 @@ C:\Users\phoen\source\repos\##FUI Studio\bin\Release\FUI Studio.exe.manifest
 C:\Users\phoen\source\repos\##FUI Studio\bin\Release\FUI Studio.application
 C:\Users\phoen\source\repos\##FUI Studio\bin\Release\FUI Studio.exe
 C:\Users\phoen\source\repos\##FUI Studio\bin\Release\FUI Studio.pdb
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.ImageViewerForm.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.FontViewerForm.resources

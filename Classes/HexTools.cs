@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace FUI_Studio.Classes
 {
@@ -50,6 +47,12 @@ namespace FUI_Studio.Classes
 
             string result = St.Substring(pFrom, pTo - pFrom);
             return result;
+        }
+
+        public static bool isAlphaNumeric(string strToCheck)
+        {
+            Regex rg = new Regex(@"^[a-zA-Z0-9,_-]*$");
+            return rg.IsMatch(strToCheck);
         }
 
     }
