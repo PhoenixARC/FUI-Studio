@@ -32,6 +32,9 @@ namespace FUI_Studio.Forms
             this.LabelsBox = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.FontBox = new System.Windows.Forms.CheckBox();
+            this.RunReferences = new System.Windows.Forms.CheckBox();
+            this.LoadImages = new System.Windows.Forms.CheckBox();
+            this.saveElements = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // LabelsBox
@@ -57,8 +60,6 @@ namespace FUI_Studio.Forms
             // FontBox
             // 
             this.FontBox.AutoSize = true;
-            this.FontBox.Checked = true;
-            this.FontBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.FontBox.Location = new System.Drawing.Point(13, 36);
             this.FontBox.Name = "FontBox";
             this.FontBox.Size = new System.Drawing.Size(84, 17);
@@ -66,11 +67,44 @@ namespace FUI_Studio.Forms
             this.FontBox.Text = "Display Font";
             this.FontBox.UseVisualStyleBackColor = true;
             // 
+            // RunReferences
+            // 
+            this.RunReferences.AutoSize = true;
+            this.RunReferences.Location = new System.Drawing.Point(13, 59);
+            this.RunReferences.Name = "RunReferences";
+            this.RunReferences.Size = new System.Drawing.Size(103, 17);
+            this.RunReferences.TabIndex = 3;
+            this.RunReferences.Text = "Load references";
+            this.RunReferences.UseVisualStyleBackColor = true;
+            // 
+            // LoadImages
+            // 
+            this.LoadImages.AutoSize = true;
+            this.LoadImages.Location = new System.Drawing.Point(13, 82);
+            this.LoadImages.Name = "LoadImages";
+            this.LoadImages.Size = new System.Drawing.Size(86, 17);
+            this.LoadImages.TabIndex = 4;
+            this.LoadImages.Text = "Load images";
+            this.LoadImages.UseVisualStyleBackColor = true;
+            // 
+            // saveElements
+            // 
+            this.saveElements.AutoSize = true;
+            this.saveElements.Location = new System.Drawing.Point(216, 13);
+            this.saveElements.Name = "saveElements";
+            this.saveElements.Size = new System.Drawing.Size(96, 17);
+            this.saveElements.TabIndex = 5;
+            this.saveElements.Text = "Save elements";
+            this.saveElements.UseVisualStyleBackColor = true;
+            // 
             // Debug
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 485);
+            this.ClientSize = new System.Drawing.Size(383, 485);
+            this.Controls.Add(this.saveElements);
+            this.Controls.Add(this.LoadImages);
+            this.Controls.Add(this.RunReferences);
             this.Controls.Add(this.FontBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.LabelsBox);
@@ -86,5 +120,8 @@ namespace FUI_Studio.Forms
         private System.Windows.Forms.CheckBox LabelsBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox FontBox;
+        private System.Windows.Forms.CheckBox RunReferences;
+        private System.Windows.Forms.CheckBox LoadImages;
+        private System.Windows.Forms.CheckBox saveElements;
     }
 }

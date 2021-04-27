@@ -31,3 +31,4 @@ C:\Users\phoen\source\repos\##FUI Studio\bin\Release\FUI Studio.pdb
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.ImageViewerForm.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.FontViewerForm.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.ElementModifier.resources

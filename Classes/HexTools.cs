@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+
 
 namespace FUI_Studio.Classes
 {
-    class HexTools
+    static class HexTools
     {
         public static byte[] StringToByteArrayFastest(string hex)
         {
@@ -38,6 +41,11 @@ namespace FUI_Studio.Classes
             return System.BitConverter.ToString(File.ReadAllBytes(input)).Replace('-', ' ');
         }
 
+        public static string trueByteArrayToHexString(byte[] input)
+        {
+            return System.BitConverter.ToString(input).Replace('-', ' ');
+        }
+
 
         public static string newstring(string St, string start, string end)
         {
@@ -53,6 +61,22 @@ namespace FUI_Studio.Classes
         {
             Regex rg = new Regex(@"^[a-zA-Z0-9,_-]*$");
             return rg.IsMatch(strToCheck);
+        }
+
+        public static List<int> IndexOfSequence(this byte[] buffer, byte[] pattern, int startIndex)
+        {
+            List<int> positions = new List<int>();
+            int i = Array.IndexOf<byte>(buffer, pattern[0], startIndex);
+            while (i >= 0 && i <= buffer.Length - pattern.Length)
+            {
+                byte[] segment = new byte[pattern.Length];
+                Buffer.BlockCopy(buffer, i, segment, 0, pattern.Length);
+                if (buffer[i + 3] == 00 && buffer[i + 2] != 00)
+                    if (segment.SequenceEqual<byte>(pattern))
+                        positions.Add(i);
+                i = Array.IndexOf<byte>(buffer, pattern[0], i + 1);
+            }
+            return positions;
         }
 
     }

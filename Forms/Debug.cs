@@ -25,12 +25,12 @@ namespace FUI_Studio.Forms
             this.Visible = false;
             if (argumants[0] == "true")
             {
-                Form1 f1 = new Form1(argumants, LabelsBox.Checked, FontBox.Checked);
+                Form1 f1 = new Form1(argumants, LabelsBox.Checked, FontBox.Checked, RunReferences.Checked, LoadImages.Checked, saveElements.Checked);
                 f1.Show();
             }
             else
             {
-                Form1 f1 = new Form1(argumants, LabelsBox.Checked, FontBox.Checked);
+                Form1 f1 = new Form1(argumants, LabelsBox.Checked, FontBox.Checked, RunReferences.Checked, LoadImages.Checked, saveElements.Checked);
                 f1.Show();
             }
         }

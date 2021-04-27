@@ -6,18 +6,26 @@ using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 
 namespace FUI_Studio.Forms
 {
     public partial class Form1 : Form
     {
-        public Form1(string[] args, bool labels, bool font)
+        public Form1(string[] args, bool labels, bool font, bool references, bool Images, bool cansaveElements)
         {
             InitializeComponent();
             DisplayLabels = labels;
             DisplayFont = font;
+            LoadReferences = references;
+            Loadimages = Images;
+            saveElements = cansaveElements;
+
             if (args.Length > 0 && File.Exists(args[0]) && args[0].EndsWith(".fui"))
-                OpenFUI(args[0]);
+                OpenFUI(args[0], false);
         }
 
         #region variables
@@ -27,395 +35,26 @@ namespace FUI_Studio.Forms
 
         bool DisplayLabels = false;
         bool DisplayFont = false;
+        bool LoadReferences = false;
+        bool Loadimages = false;
+        bool saveElements = false;
+
+        List<int[]> startEnds = new List<int[]>();
 
         #endregion
 
         #region Opening FUIs
 
-        public void OpenFUI(string fui)
+        public void OpenFUI(string fui, bool IsReference)
         {
-            try
-            {
-                foreach (string dir in Directory.GetDirectories(TempDir))
-                {
-                    Directory.Delete(dir, true);
-                }
-            }
-            catch { }
-            try
-            {
-                string datax = Classes.HexTools.ByteArrayToHexString(fui);
-                string basefile = datax.Split(new[] { "FF D8 FF E0", "89 50 4E 47" }, StringSplitOptions.None)[0];
-                Directory.CreateDirectory(TempDir + Path.GetFileName(fui) + "\\images\\");
-
-                this.Text = "FUI Studio(" + fui + ")";
-
-                MemoryStream fsx = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(basefile.Replace(" ", "")));
-                var fileStreamx = new FileStream(TempDir + Path.GetFileName(fui) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin", FileMode.Create, FileAccess.Write);
-                fsx.CopyTo(fileStreamx);
-                fileStreamx.Dispose();
-                ImageList imageList = new ImageList();
-                imageList.ColorDepth = ColorDepth.Depth32Bit;
-                imageList.ImageSize = new Size(20, 20);
-                imageList.Images.Add(Properties.Resources.Selected);
-                imageList.Images.Add(Properties.Resources.FolderIcon);
-                imageList.Images.Add(Properties.Resources.ImgIcon);
-                imageList.Images.Add(Properties.Resources.metaa);
-                imageList.Images.Add(Properties.Resources.font);
-                treeView1.ImageList = imageList;
-                int imageNo = 0;
-                int PNGNo = 0;
-                treeView1.Nodes.Clear();
-                TreeNode tnx = new TreeNode();
-                tnx.Text = Path.GetFileName(fui);
-                tnx.Tag = fui;
-                tnx.ImageIndex = 1;
-
-
-                TreeNode tn = new TreeNode();
-                tn.Text = "images";
-                tn.Tag = TempDir + Path.GetFileName(fui) + "\\images\\";
-                tn.ImageIndex = 1;
-
-                tnx.Nodes.Add(tn);
-
-                TreeNode tnb = new TreeNode();
-                tnb.Text = "references";
-                tnb.ImageIndex = 1;
-
-                TreeNode tnd = new TreeNode();
-                tnd.Text = "Font";
-                tnd.ImageIndex = 1;
-
-                TreeNode tnc = new TreeNode();
-                tnc.Text = "Labels";
-                tnc.ImageIndex = 1;
-
-                tnx.Nodes.Add(tnb);
-                if(DisplayLabels)
-                tnx.Nodes.Add(tnc);
-                if(DisplayFont)
-                tnx.Nodes.Add(tnd);
-
-                imgList.Clear();
-                Classes.ImageProcessor.extractImage(fui, imgList);
-                List<string> LabelList = new List<string>();
-                List<string> FontList = new List<string>();
-
-                string[] data = Classes.HexTools.ByteArrayToHexString(fui).Replace("-"," ").Split(new[] { "00 " }, StringSplitOptions.None);
-
-
-                foreach (string reference in data)
-                {
-                    try
-                    {
-                        if (!reference.Contains("2E 73 77 66") && Classes.HexTools.isAlphaNumeric(System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))))) && System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", "")))).Length > 3)
-                        {
-
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                            if (DisplayLabels)
-                                LabelList.Add(newdata);
-                        }
-                        if (reference.Contains("3C 70 20 61"))
-                        {
-
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                            if (DisplayFont)
-                                FontList.Add(newdata);
-                        }
-                        if (reference.Contains("2E 73 77 66"))
-                        {
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = newdata.Replace(".swf", ".fui") + ".ref";
-                            tn1.ImageIndex = 3;
-                            tnb.Nodes.Add(tn1);
-
-                        }
-                    }
-                    catch { }
-                }
-                LabelList.Reverse();
-                foreach (string newdata in LabelList)
-                {
-                    TreeNode tn1 = new TreeNode();
-                    tn1.Text = newdata;
-                    tn1.ImageIndex = 3;
-                    tnc.Nodes.Add(tn1);
-                }
-                foreach (string newdata in FontList)
-                {
-                    try
-                    {
-                        TreeNode tn1 = new TreeNode();
-                        string ndat = newdata.Split(new[] { "kerning=\"1\">" }, StringSplitOptions.None)[1].Split(new[] { "<" }, StringSplitOptions.None)[0] + ".fnt";
-                        tn1.Text = ndat;
-                        tn1.Tag = newdata;
-                        tn1.ImageIndex = 4;
-                        tnd.Nodes.Add(tn1);
-                    }
-                    catch { }
-                }
-
-                foreach (string image in imgList)
-                {
-                    if (image.StartsWith("89 50 4E 47"))
-                    {
-                        try
-                        {
-                            MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = LabelList[PNGNo] + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
-                        }
-                        catch
-                        {
-                            MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = "Tile" + imageNo + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
-                        }
-                        PNGNo++;
-                    }
-                    if (image.StartsWith("FF D8 FF E0"))
-                    {
-
-                        MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                        var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".jpg", FileMode.Create, FileAccess.Write);
-                        fs.CopyTo(fileStream);
-                        fileStream.Dispose();
-                        TreeNode tn1 = new TreeNode();
-                        tn1.Text = Path.GetFileName(tn.Tag.ToString() + "Tile" + imageNo + ".jpg");
-                        tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".jpg";
-                        tn1.ImageIndex = 2;
-                        tn.Nodes.Add(tn1);
-                    }
-                    imageNo++;
-                }
-                
-                treeView1.Nodes.Add(tnx);
-                foreach (TreeNode reference in tnb.Nodes)
-                {
-                    if (reference.Text.Replace(".ref", "") != Path.GetFileName(fui) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")))
-                    {
-                        DialogResult dr = MessageBox.Show(Path.GetFileName(fui)  + " is dependent on:" + reference.Text.Replace(".ref", "") + "\nLoad File?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                        if (dr == DialogResult.Yes)
-                        {
-                            OpenRefFui(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", ""));
-                        }
-
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
-        public void OpenRefFui(string fui)
-        {
-            try
-            {
-                string datax = Classes.HexTools.ByteArrayToHexString(fui);
-                string basefile = datax.Split(new[] { "FF D8 FF E0", "89 50 4E 47" }, StringSplitOptions.None)[0];
-                Directory.CreateDirectory(TempDir + Path.GetFileName(fui) + "\\images\\");
-
-
-                MemoryStream fsx = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(basefile.Replace(" ", "")));
-                var fileStreamx = new FileStream(TempDir + Path.GetFileName(fui) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin", FileMode.Create, FileAccess.Write);
-                fsx.CopyTo(fileStreamx);
-                fileStreamx.Dispose();
-                ImageList imageList = new ImageList();
-                imageList.ColorDepth = ColorDepth.Depth32Bit;
-                imageList.ImageSize = new Size(20, 20);
-                imageList.Images.Add(Properties.Resources.Selected);
-                imageList.Images.Add(Properties.Resources.FolderIcon);
-                imageList.Images.Add(Properties.Resources.ImgIcon);
-                imageList.Images.Add(Properties.Resources.metaa);
-                imageList.Images.Add(Properties.Resources.font);
-                treeView1.ImageList = imageList;
-                int imageNo = 0;
-                int PNGNo = 0;
-                TreeNode tnx = new TreeNode();
-                tnx.Text = Path.GetFileName(fui);
-                tnx.Tag = fui;
-                tnx.ImageIndex = 1;
-
-
-                TreeNode tn = new TreeNode();
-                tn.Text = "images";
-                tn.Tag = TempDir + Path.GetFileName(fui) + "\\images\\";
-                tn.ImageIndex = 1;
-
-                tnx.Nodes.Add(tn);
-
-                TreeNode tnb = new TreeNode();
-                tnb.Text = "references";
-                tnb.ImageIndex = 1;
-
-                TreeNode tnd = new TreeNode();
-                tnd.Text = "Font";
-                tnd.ImageIndex = 1;
-
-                TreeNode tnc = new TreeNode();
-                tnc.Text = "Labels";
-                tnc.ImageIndex = 1;
-
-                tnx.Nodes.Add(tnb);
-                if (DisplayLabels)
-                    tnx.Nodes.Add(tnc);
-                if (DisplayFont)
-                    tnx.Nodes.Add(tnd);
-
-                imgList.Clear();
-                Classes.ImageProcessor.extractImage(fui, imgList);
-                List<string> LabelList = new List<string>();
-                List<string> FontList = new List<string>();
-
-                string[] data = Classes.HexTools.ByteArrayToHexString(fui).Replace("-", " ").Split(new[] { "00 " }, StringSplitOptions.None);
-
-
-                foreach (string reference in data)
-                {
-                    try
-                    {
-                        if (!reference.Contains("2E 73 77 66") && Classes.HexTools.isAlphaNumeric(System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))))) && System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", "")))).Length > 3)
-                        {
-
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                            if (DisplayLabels)
-                                LabelList.Add(newdata);
-                        }
-                        if (reference.Contains("3C 70 20 61"))
-                        {
-
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                            if (DisplayFont)
-                                FontList.Add(newdata);
-                        }
-                        if (reference.Contains("2E 73 77 66"))
-                        {
-                            string newdata = System.Text.Encoding.Default.GetString(Classes.HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = newdata.Replace(".swf", ".fui") + ".ref";
-                            tn1.ImageIndex = 3;
-                            tnb.Nodes.Add(tn1);
-
-                        }
-                    }
-                    catch { }
-                }
-                LabelList.Reverse();
-                foreach (string newdata in LabelList)
-                {
-                    TreeNode tn1 = new TreeNode();
-                    tn1.Text = newdata;
-                    tn1.ImageIndex = 3;
-                    tnc.Nodes.Add(tn1);
-                }
-                foreach (string newdata in FontList)
-                {
-                    try
-                    {
-                        TreeNode tn1 = new TreeNode();
-                        string ndat = newdata.Split(new[] { "kerning=\"1\">" }, StringSplitOptions.None)[1].Split(new[] { "<" }, StringSplitOptions.None)[0] + ".fnt";
-                        tn1.Text = ndat;
-                        tn1.Tag = newdata;
-                        tn1.ImageIndex = 4;
-                        tnd.Nodes.Add(tn1);
-                    }
-                    catch { }
-                }
-
-                foreach (string image in imgList)
-                {
-                    if (image.StartsWith("89 50 4E 47"))
-                    {
-                        try
-                        {
-                            MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = LabelList[PNGNo] + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
-                        }
-                        catch
-                        {
-                            MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = "Tile" + imageNo + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
-                        }
-                        PNGNo++;
-                    }
-                    if (image.StartsWith("FF D8 FF E0"))
-                    {
-
-                        MemoryStream fs = new MemoryStream(Classes.HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                        var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".jpg", FileMode.Create, FileAccess.Write);
-                        fs.CopyTo(fileStream);
-                        fileStream.Dispose();
-                        TreeNode tn1 = new TreeNode();
-                        tn1.Text = Path.GetFileName(tn.Tag.ToString() + "Tile" + imageNo + ".jpg");
-                        tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".jpg";
-                        tn1.ImageIndex = 2;
-                        tn.Nodes.Add(tn1);
-                    }
-                    imageNo++;
-                }
-
-                treeView1.Nodes.Add(tnx);
-                List<string> OpenFUIs = new List<string>();
-                foreach (TreeNode reference in tnb.Nodes)
-                {
-                foreach (TreeNode node in treeView1.Nodes)
-                {
-                    OpenFUIs.Add(node.Text);
-                }
-                    if (reference.Text.Replace(".ref","") != Path.GetFileName(fui) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")) && !OpenFUIs.Contains(reference.Text.Replace(".ref", "")))
-                    {
-                        DialogResult dr = MessageBox.Show(Path.GetFileName(fui) + " is dependent on:" + reference.Text.Replace(".ref", "") + "\nLoad File?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                        if (dr == DialogResult.Yes)
-                        {
-                            OpenRefFui(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", ""));
-                        }
-
-                    }
-                }
-            }
-            catch
-            {
-
-            }
+            Classes.LoadFUI.OpenFUI(fui, IsReference, treeView1, DisplayLabels, DisplayFont, startEnds, imgList, LoadReferences, Loadimages);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog opf = new OpenFileDialog();
             if (opf.ShowDialog() == DialogResult.OK)
-                OpenFUI(opf.FileName);
+                OpenFUI(opf.FileName, false);
         }
 
         #endregion
@@ -435,8 +74,8 @@ namespace FUI_Studio.Forms
 
                 extractToolStripMenuItem.Enabled = true;
                 replaceToolStripMenuItem.Enabled = true;
-                if(treeView1.SelectedNode.Text.EndsWith(".png"))
-                checkBox1.Enabled = true;
+                if (treeView1.SelectedNode.Text.EndsWith(".png"))
+                    checkBox1.Enabled = true;
 
 
             }
@@ -447,6 +86,12 @@ namespace FUI_Studio.Forms
             else if (treeView1.SelectedNode.Text.EndsWith(".fnt"))
             {
                 richTextBox1.Text = treeView1.SelectedNode.Tag.ToString();
+            }
+            else if (treeView1.SelectedNode.Text.EndsWith(".elmnt"))
+            {
+                //richTextBox1.Text = treeView1.SelectedNode.Tag.ToString();
+                string[] stats = treeView1.SelectedNode.Tag.ToString().Split(new[] { " " }, StringSplitOptions.None);
+                richTextBox1.Text = "width = "+ Classes.HexTools.StringToByteArrayFastest(stats[14])[0]+"\nheight = "+ Classes.HexTools.StringToByteArrayFastest(stats[26])[0]+"\nx = "+ Classes.HexTools.StringToByteArrayFastest(stats[30])[0];
             }
             else
             {
@@ -476,6 +121,14 @@ namespace FUI_Studio.Forms
                             FontViewerForm fnt = new FontViewerForm(treeView1.SelectedNode.Tag.ToString(), treeView1.SelectedNode.Text);
                             fnt.ShowDialog();
                             break;
+                        case (".elmnt"):
+                            var result = ElementModifier.Execute(Classes.HexTools.StringToByteArrayFastest(treeView1.SelectedNode.Tag.ToString().Replace(" ","")), treeView1.SelectedNode.Text.Replace(".elmnt",""));
+                            if (result.Result == DialogResult.OK)
+                            {
+                                Console.WriteLine("xx");
+                            treeView1.SelectedNode.Tag = "";
+                            }
+                        break;
                         case (".ref"):
                             string fui = treeView1.SelectedNode.Parent.Parent.Tag.ToString();
                             string reference = treeView1.SelectedNode.Text.Replace(".ref","");
@@ -489,7 +142,7 @@ namespace FUI_Studio.Forms
                             DialogResult dr = MessageBox.Show(Path.GetFileName(fui) + " is dependent on:" + reference + "\nLoad File?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                             if (dr == DialogResult.Yes)
                             {
-                                OpenRefFui(Path.GetDirectoryName(fui) + "\\" + reference);
+                                OpenFUI(Path.GetDirectoryName(fui) + "\\" + reference, true);
                             }
 
                         }
@@ -497,9 +150,9 @@ namespace FUI_Studio.Forms
                     }
 
             }
-            catch
+            catch (Exception err)
             {
-
+                Console.WriteLine(err.Message);
             }
         }
         #endregion
@@ -678,17 +331,56 @@ namespace FUI_Studio.Forms
         
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach(TreeNode file in treeView1.Nodes)
+            int index = 0;
+            try
             {
-                SaveFUI(file.Tag.ToString());
+                foreach (TreeNode file in treeView1.Nodes)
+                {
+                    if(SaveFUI(file.Tag.ToString(), index) == 1)
+                    {
+
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    index++;
+                }
+                MessageBox.Show("Saved!");
+            }
+            catch
+            {
+                MessageBox.Show("Error!!\n(T_T)");
             }
         }
 
-        public void SaveFUI(string fui)
+        public int SaveFUI(string fui, int index)
         {
             int imgno = 0;
             string dir = TempDir + Path.GetFileName(fui) + "\\images";
+            int originalsize = File.ReadAllBytes(Path.GetDirectoryName(dir) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin").Length;
+            Console.WriteLine("Start: " + startEnds[index][0]);
+            Console.WriteLine("end: " + startEnds[index][1]);
+            byte[] filebytes = File.ReadAllBytes(Path.GetDirectoryName(dir) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin");
+            string beginningdata = Classes.HexTools.trueByteArrayToHexString(filebytes.Skip(0).Take(startEnds[index][0]).ToArray()).Replace("-", "");
+            string endingdata = Classes.HexTools.trueByteArrayToHexString(filebytes.Skip(startEnds[index][1]).Take(filebytes.Length-1).ToArray()).Replace("-", "");
+            string midData = "";
+            int length = treeView1.Nodes[index].Nodes.Count;
+            foreach (TreeNode tn in treeView1.Nodes[index].Nodes[length-1].Nodes)
+            {
+                midData += tn.Tag.ToString().Replace(" ","");
+            }
             string outputdata = Classes.HexTools.ByteArrayToHexString(Path.GetDirectoryName(dir) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin").Replace("-","");
+            if (saveElements)
+            {
+                outputdata = beginningdata + midData + endingdata;
+            }
+            byte[] outputBin = Classes.HexTools.StringToByteArrayFastest(outputdata.Replace(" ", "").Replace("-", ""));
+            if (outputBin.Length > originalsize)
+            {
+                MessageBox.Show("SIZE ERROR!!");
+                return 0;
+            }
             while (imgno < Directory.GetFiles(TempDir + Path.GetFileName(fui) + "\\images\\").Length)
             {
                 try
@@ -711,6 +403,7 @@ namespace FUI_Studio.Forms
             var fileStream = new FileStream(fui, FileMode.Create, FileAccess.Write);
             fs.CopyTo(fileStream);
             fileStream.Dispose();
+            return 1;
         }
 
         #endregion

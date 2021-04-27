@@ -27,14 +27,14 @@ namespace FUI_Studio
                 {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Forms.Form1(args, false, true));
+                    Application.Run(new Forms.Form1(args, false, true, true, true, false));
                 }
             }
             else
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Forms.Form1(args, false, true));
+                Application.Run(new Forms.Form1(args, false, true, true, true, false));
             }
         }
     }
