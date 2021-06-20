@@ -274,15 +274,27 @@ namespace FUI_Studio.Forms
             }
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                if (checkBox1.Checked)
+                if (treeView1.SelectedNode.Text.EndsWith(".png"))
                 {
-                    object NodeTag = treeView1.SelectedNode.Tag;
+                    DialogResult dr = MessageBox.Show("Do you want to correct color on this image?",
+                      "PNG Replacement", MessageBoxButtons.YesNo);
+                    switch (dr)
+                    {
+                        case DialogResult.Yes:
+                            object NodeTag = treeView1.SelectedNode.Tag;
 
-                    MemoryStream fs = new MemoryStream(File.ReadAllBytes(sfd.FileName));
-                    Bitmap bmp = new Bitmap(Bitmap.FromStream(fs));
-                    Classes.ImageProcessor.ReverseColorRB(bmp);
-                    bmp.Save(NodeTag.ToString(), ImageFormat.Png);
-                    return;
+                            MemoryStream fs = new MemoryStream(File.ReadAllBytes(sfd.FileName));
+                            Bitmap bmp = new Bitmap(Bitmap.FromStream(fs));
+                            Classes.ImageProcessor.ReverseColorRB(bmp);
+                            ImageConverter converter = new ImageConverter();
+                            byte[] ouutput = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
+                            //bmp.Save(NodeTag.ToString(), ImageFormat.Png);
+                            File.WriteAllBytes(treeView1.SelectedNode.Tag.ToString(), ouutput);
+                            return;
+                            break;
+                        case DialogResult.No:
+                            break;
+                    }
                 }
                 File.Copy(sfd.FileName, treeView1.SelectedNode.Tag.ToString(), true);
             }

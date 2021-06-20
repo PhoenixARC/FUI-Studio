@@ -7,7 +7,7 @@ namespace FUI_Studio.Classes
 {
     public static class Networking
     {
-        public static string ver = "1.2";
+        public static string ver = "1.4";
         static string url = "https://www.pckstudio.tk/studio/FUI/api/update.txt";
         static string backupurl = "https://phoenixarc.github.io/pckstudio.tk/studio/FUI/api/update.txt";
         public static bool NeedsUpdate = false;
@@ -43,7 +43,7 @@ namespace FUI_Studio.Classes
                 }
                 catch
                 {
-                    NeedsUpdate = true;
+                    NeedsUpdate = false;
                     MessageBox.Show("Server unreachable!\nUnable to check for updates!", "Server Error", MessageBoxButtons.OK);
                 }
             }

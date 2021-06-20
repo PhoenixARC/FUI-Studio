@@ -25,10 +25,11 @@ namespace FUI_Studio.Classes
 
             try
             {
-                foreach (string dir in Directory.GetDirectories(TempDir))
-                {
-                    Directory.Delete(dir, true);
-                }
+                if(!isReference)
+                    foreach (string dir in Directory.GetDirectories(TempDir))
+                    {
+                        Directory.Delete(dir, true);
+                    }
             }
             catch { }
             try
@@ -205,7 +206,7 @@ namespace FUI_Studio.Classes
                 treeView1.Nodes.Add(tnx);
                 foreach (TreeNode reference in tnb.Nodes)
                 {
-                    if (reference.Text.Replace(".ref", "") != Path.GetFileName(fui) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")) && LoadReferences)
+                    if (reference.Text.Replace(".ref", "") != Path.GetFileName(fui) && !Directory.Exists(TempDir + reference.Text.Replace(".ref", "")) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")) && LoadReferences)
                     {
                         DialogResult dr = MessageBox.Show(Path.GetFileName(fui) + " is dependent on:" + reference.Text.Replace(".ref", "") + "\nLoad File?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                         if (dr == DialogResult.Yes)

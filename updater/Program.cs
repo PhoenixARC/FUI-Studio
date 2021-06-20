@@ -60,11 +60,16 @@ namespace updater
 							{
 								try
 								{
+									Console.WriteLine(raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\"));
 									Directory.CreateDirectory(Path.GetDirectoryName(Environment.CurrentDirectory + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\")));
 									string url = ServerXML.Replace(".xml", "") + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "");
 									new WebClient().DownloadFile(url, Environment.CurrentDirectory + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\"));
 								}
-								catch { }
+								catch (Exception err)
+								{
+									Console.WriteLine(err.Message);
+									Console.WriteLine(err.StackTrace);
+								}
 							}
 							break;
 					}
@@ -78,8 +83,11 @@ namespace updater
 				}.Start();
 				Application.Exit();
 			}
-            catch
+            catch(Exception err1)
             {
+				Console.WriteLine(err1.Message);
+				Console.WriteLine(err1);
+				Console.WriteLine(err1.Source.ToString());
                 try
 				{
 					try
@@ -112,8 +120,13 @@ namespace updater
 										Directory.CreateDirectory(Path.GetDirectoryName(Environment.CurrentDirectory + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\")));
 										string url = backupServerXML.Replace(".xml", "") + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "");
 										new WebClient().DownloadFile(url, Environment.CurrentDirectory + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\"));
+										Console.WriteLine(Environment.CurrentDirectory + raw[reader.LineNumber - 1].Replace("	<FileUpdateTask localPath=\"", "").Replace("\">", "").Replace("/", "\\"));
 									}
-									catch { }
+									catch (Exception err)
+									{
+										Console.WriteLine(err.Message);
+									}
+
 								}
 								break;
 						}
@@ -127,7 +140,11 @@ namespace updater
 					}.Start();
 					Application.Exit();
 				}
-                catch { }
+				catch (Exception err)
+				{
+					Console.WriteLine(err.Message);
+				}
+				Console.ReadLine();
             }
 		}
 	}
