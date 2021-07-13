@@ -164,6 +164,7 @@ namespace FUI_Studio.Forms
             pictureBox1.InterpolationMode = InterpolationMode.NearestNeighbor;
             Directory.CreateDirectory(TempDir);
             Classes.Networking.checkUpdate();
+            Classes.Networking.TryDlDatabse();
             if (Classes.Networking.NeedsUpdate)
                 UPDATEToolStripMenuItem.Visible = true;
             File.WriteAllBytes(Environment.CurrentDirectory + "\\Mojangles.ttf", Properties.Resources.Mojangles);
@@ -187,6 +188,11 @@ namespace FUI_Studio.Forms
             Process.Start(TempDir);
         }
 
+        private void CheckDBMenuItem_Click(object sender, EventArgs e)
+        {
+            Classes.Networking.TryDlDatabse();
+        }
+
         private void extractToolStripMenuItem_Click(object sender, EventArgs e)
         {
                 switch (treeView1.SelectedNode.Text)
@@ -194,12 +200,25 @@ namespace FUI_Studio.Forms
                     case ("images"):
                         FolderBrowserDialog fbd = new FolderBrowserDialog();
                         fbd.RootFolder = Environment.SpecialFolder.UserProfile;
-                        if (fbd.ShowDialog() == DialogResult.OK)
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        Directory.CreateDirectory(fbd.SelectedPath + "\\images\\");
+
+                        int i = 0;
+                        foreach (string file in Directory.GetFiles(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\"))
                         {
-                            Directory.CreateDirectory(fbd.SelectedPath + "\\images\\");
-                            foreach (string file in Directory.GetFiles(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\"))
-                                File.Copy(file, fbd.SelectedPath + "\\images\\" + Path.GetFileName(file), true);
+                            try
+                            {
+                                File.Copy(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".png", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
+                            }
+                            catch
+                            {
+                                File.Copy(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".jpg", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
+                            }
+                                i++;
                         }
+
+                    }
                         return;
                         break;
                     case ("Font"):

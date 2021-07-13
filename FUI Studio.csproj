@@ -140,8 +140,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\about.ja.resx">
+      <DependentUpon>about.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\about.resx">
       <DependentUpon>about.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Debug.ja.resx">
+      <DependentUpon>Debug.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Debug.resx">
       <DependentUpon>Debug.cs</DependentUpon>
@@ -151,6 +157,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FontViewerForm.resx">
       <DependentUpon>FontViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form1.en.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Form1.ja.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

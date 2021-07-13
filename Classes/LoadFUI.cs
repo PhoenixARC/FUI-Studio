@@ -34,6 +34,26 @@ namespace FUI_Studio.Classes
             catch { }
             try
             {
+                List<string> ImageNames = new List<string>();
+                try
+                {
+                    string EncryptedData = File.ReadAllText(Environment.CurrentDirectory + "\\Data\\FuiIMGData_Enc.db");
+                    string decryptedData = Program.Decrypt(EncryptedData);
+                    foreach (string Group in decryptedData.Split(new[] { "--" }, StringSplitOptions.None))
+                    {
+                        string[] Dat = Group.Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);
+                        if (Path.GetFileName(fui).StartsWith(Dat[0].Replace("WiiU", "WiiU").Replace("PS3", "WiiU").Replace("Vita", "WiiU").Replace("Xbox", "WiiU") + ".fui"))
+                        {
+                            Console.WriteLine(Path.GetFileNameWithoutExtension(fui) + "  ----  " + Dat[0]);
+                            foreach (string Line in Dat)
+                            {
+                                if (Line != Dat[0])
+                                    ImageNames.Add(Line);
+                            }
+                        }
+                    }
+                }
+                catch { }
                 string datax = HexTools.ByteArrayToHexString(fui);
                 string basefile = datax.Split(new[] { "FF D8 FF E0", "89 50 4E 47" }, StringSplitOptions.None)[0];
                 Directory.CreateDirectory(TempDir + Path.GetFileName(fui) + "\\images\\");
@@ -159,46 +179,93 @@ namespace FUI_Studio.Classes
 
                 foreach (string image in imgList)
                 {
-                    if (image.StartsWith("89 50 4E 47"))
+                    try
                     {
-                        try
+                        if (image.StartsWith("89 50 4E 47"))
                         {
-                            MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = LabelList[PNGNo] + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
+                            try
+                            {
+                                MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                                var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
+                                fs.CopyTo(fileStream);
+                                fileStream.Dispose();
+                                TreeNode tn1 = new TreeNode();
+                                tn1.Text = LabelList[PNGNo] + ".png";
+                                tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
+                                tn1.ImageIndex = 2;
+                                tn.Nodes.Add(tn1);
+                            }
+                            catch
+                            {
+                                MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                                var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
+                                fs.CopyTo(fileStream);
+                                fileStream.Dispose();
+                                TreeNode tn1 = new TreeNode();
+                                tn1.Text = ImageNames[imageNo] + ".png";
+                                tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
+                                tn1.ImageIndex = 2;
+                                tn.Nodes.Add(tn1);
+                            }
+                            PNGNo++;
                         }
-                        catch
+                        if (image.StartsWith("FF D8 FF E0"))
                         {
-                            MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
-                            fs.CopyTo(fileStream);
-                            fileStream.Dispose();
-                            TreeNode tn1 = new TreeNode();
-                            tn1.Text = "Tile" + imageNo + ".png";
-                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
-                            tn1.ImageIndex = 2;
-                            tn.Nodes.Add(tn1);
-                        }
-                        PNGNo++;
-                    }
-                    if (image.StartsWith("FF D8 FF E0"))
-                    {
 
-                        MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
-                        var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".jpg", FileMode.Create, FileAccess.Write);
-                        fs.CopyTo(fileStream);
-                        fileStream.Dispose();
-                        TreeNode tn1 = new TreeNode();
-                        tn1.Text = Path.GetFileName(tn.Tag.ToString() + "Tile" + imageNo + ".jpg");
-                        tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".jpg";
-                        tn1.ImageIndex = 2;
-                        tn.Nodes.Add(tn1);
+                            MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".jpg", FileMode.Create, FileAccess.Write);
+                            fs.CopyTo(fileStream);
+                            fileStream.Dispose();
+                            TreeNode tn1 = new TreeNode();
+                            tn1.Text = Path.GetFileName(tn.Tag.ToString() + ImageNames[imageNo] + ".jpg");
+                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".jpg";
+                            tn1.ImageIndex = 2;
+                            tn.Nodes.Add(tn1);
+                        }
+                    }
+                    catch
+                    {
+                        if (image.StartsWith("89 50 4E 47"))
+                        {
+                            try
+                            {
+                                MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                                var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
+                                fs.CopyTo(fileStream);
+                                fileStream.Dispose();
+                                TreeNode tn1 = new TreeNode();
+                                tn1.Text = LabelList[PNGNo] + ".png";
+                                tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
+                                tn1.ImageIndex = 2;
+                                tn.Nodes.Add(tn1);
+                            }
+                            catch
+                            {
+                                MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                                var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".png", FileMode.Create, FileAccess.Write);
+                                fs.CopyTo(fileStream);
+                                fileStream.Dispose();
+                                TreeNode tn1 = new TreeNode();
+                                tn1.Text = "Tile" + imageNo + ".png";
+                                tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".png";
+                                tn1.ImageIndex = 2;
+                                tn.Nodes.Add(tn1);
+                            }
+                            PNGNo++;
+                        }
+                        if (image.StartsWith("FF D8 FF E0"))
+                        {
+
+                            MemoryStream fs = new MemoryStream(HexTools.StringToByteArrayFastest(image.Replace(" ", "")));
+                            var fileStream = new FileStream(tn.Tag.ToString() + "Tile" + imageNo + ".jpg", FileMode.Create, FileAccess.Write);
+                            fs.CopyTo(fileStream);
+                            fileStream.Dispose();
+                            TreeNode tn1 = new TreeNode();
+                            tn1.Text = Path.GetFileName(tn.Tag.ToString() + "Tile" + imageNo + ".jpg");
+                            tn1.Tag = tn.Tag.ToString() + "Tile" + imageNo + ".jpg";
+                            tn1.ImageIndex = 2;
+                            tn.Nodes.Add(tn1);
+                        }
                     }
                     imageNo++;
                 }

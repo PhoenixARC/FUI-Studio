@@ -32,3 +32,11 @@ C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.reso
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.ImageViewerForm.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.FontViewerForm.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.ElementModifier.resources
+C:\Users\phoen\source\repos\##FUI Studio\bin\Release\ja\FUI Studio.resources.dll
+C:\Users\phoen\source\repos\##FUI Studio\bin\Release\en\FUI Studio.resources.dll
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.about.ja.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Form1.en.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Form1.ja.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\ja\FUI Studio.resources.dll
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\en\FUI Studio.resources.dll
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.ja.resources
