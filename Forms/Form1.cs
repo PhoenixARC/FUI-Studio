@@ -31,7 +31,6 @@ namespace FUI_Studio.Forms
         #region variables
 
         public List<string> imgList = new List<string>();
-        public string TempDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Fui Studio\\";
 
         bool DisplayLabels = false;
         bool DisplayFont = false;
@@ -161,8 +160,52 @@ namespace FUI_Studio.Forms
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            try
+            {
+
+                if (!File.Exists(Environment.CurrentDirectory + "\\settings.ini"))
+                    File.WriteAllText(Environment.CurrentDirectory + "\\settings.ini", "**Settings** \nyou can change a variable here!\n**true / false does not accept capitals, 'True' and 'TRUE' do not work, ony 'true'\nIsPortable=" + Program.IsPortable.ToString().Replace("T", "t").Replace("F", "f"));
+                Directory.CreateDirectory(Environment.CurrentDirectory + "\\Data");
+                File.WriteAllBytes(Environment.CurrentDirectory + "\\Data\\FuiIMGData_Enc.db", Properties.Resources.FuiIMGData_Enc);
+            }
+            catch { }
+            try // Checks if portable flag is checked in settings
+            {
+
+                string Data = File.ReadAllText(Environment.CurrentDirectory + "\\settings.ini");
+                string[] Lines = Data.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                foreach (string Line in Lines)
+                {
+                    try
+                    {
+                        string Param = Line.Split('=')[0];
+                        string Value = Line.Split('=')[1];
+                        Console.WriteLine(Param + "=" + Value);
+                        switch (Param)
+                        {
+                            case ("IsPortable"):
+                                Program.IsPortable = (Value == "true");
+                                break;
+                        }
+                    }
+                    catch { }
+
+                }
+            }
+            catch { }
+            try // Determine Location based on portable status
+            {
+                if (!Program.IsPortable)
+                    Program.TempDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Fui Studio\\";
+                else
+                    Program.TempDir = Environment.CurrentDirectory + "\\Fui Studio\\";
+            }
+            catch
+            {
+
+            }
             pictureBox1.InterpolationMode = InterpolationMode.NearestNeighbor;
-            Directory.CreateDirectory(TempDir);
+            Directory.CreateDirectory(Program.TempDir);
             Classes.Networking.checkUpdate();
             Classes.Networking.TryDlDatabse();
             if (Classes.Networking.NeedsUpdate)
@@ -172,7 +215,7 @@ namespace FUI_Studio.Forms
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            foreach(string dir in Directory.GetDirectories(TempDir))
+            foreach(string dir in Directory.GetDirectories(Program.TempDir))
             {
                 Directory.Delete(dir, true);
             }
@@ -185,7 +228,7 @@ namespace FUI_Studio.Forms
 
         private void openWorkingDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process.Start(TempDir);
+            Process.Start(Program.TempDir);
         }
 
         private void CheckDBMenuItem_Click(object sender, EventArgs e)
@@ -205,15 +248,15 @@ namespace FUI_Studio.Forms
                         Directory.CreateDirectory(fbd.SelectedPath + "\\images\\");
 
                         int i = 0;
-                        foreach (string file in Directory.GetFiles(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\"))
+                        foreach (string file in Directory.GetFiles(Program.TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\"))
                         {
                             try
                             {
-                                File.Copy(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".png", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
+                                File.Copy(Program.TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".png", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
                             }
                             catch
                             {
-                                File.Copy(TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".jpg", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
+                                File.Copy(Program.TempDir + Path.GetFileName(treeView1.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".jpg", fbd.SelectedPath + "\\images\\" + treeView1.SelectedNode.Nodes[i].Text, true);
                             }
                                 i++;
                         }
@@ -388,7 +431,7 @@ namespace FUI_Studio.Forms
         public int SaveFUI(string fui, int index)
         {
             int imgno = 0;
-            string dir = TempDir + Path.GetFileName(fui) + "\\images";
+            string dir = Program.TempDir + Path.GetFileName(fui) + "\\images";
             int originalsize = File.ReadAllBytes(Path.GetDirectoryName(dir) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin").Length;
             Console.WriteLine("Start: " + startEnds[index][0]);
             Console.WriteLine("end: " + startEnds[index][1]);
@@ -412,7 +455,7 @@ namespace FUI_Studio.Forms
                 MessageBox.Show("SIZE ERROR!!");
                 return 0;
             }
-            while (imgno < Directory.GetFiles(TempDir + Path.GetFileName(fui) + "\\images\\").Length)
+            while (imgno < Directory.GetFiles(Program.TempDir + Path.GetFileName(fui) + "\\images\\").Length)
             {
                 try
                 {

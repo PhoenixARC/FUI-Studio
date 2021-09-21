@@ -8,7 +8,7 @@ namespace FUI_Studio.Classes
 {
     public static class Networking
     {
-        public static string ver = "1.7";
+        public static string ver = "1.8";
         static string url = "https://www.pckstudio.tk/";
         static string backupurl = "https://phoenixarc.github.io/pckstudio.tk/";
         static string UpdateFilePath = "studio/FUI/api/update.txt";

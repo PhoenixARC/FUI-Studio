@@ -17,8 +17,6 @@ namespace FUI_Studio.Classes
 
 
 
-        public static string TempDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Fui Studio\\";
-
 
         public static void OpenFUI(string fui, bool isReference, TreeView treeView1, bool DisplayLabels, bool DisplayFont, List<int[]> startEnds, List<string> imgList, bool LoadReferences, bool Loadimages)
         {
@@ -26,7 +24,7 @@ namespace FUI_Studio.Classes
             try
             {
                 if(!isReference)
-                    foreach (string dir in Directory.GetDirectories(TempDir))
+                    foreach (string dir in Directory.GetDirectories(Program.TempDir))
                     {
                         Directory.Delete(dir, true);
                     }
@@ -56,11 +54,11 @@ namespace FUI_Studio.Classes
                 catch { }
                 string datax = HexTools.ByteArrayToHexString(fui);
                 string basefile = datax.Split(new[] { "FF D8 FF E0", "89 50 4E 47" }, StringSplitOptions.None)[0];
-                Directory.CreateDirectory(TempDir + Path.GetFileName(fui) + "\\images\\");
+                Directory.CreateDirectory(Program.TempDir + Path.GetFileName(fui) + "\\images\\");
 
 
                 MemoryStream fsx = new MemoryStream(HexTools.StringToByteArrayFastest(basefile.Replace(" ", "")));
-                var fileStreamx = new FileStream(TempDir + Path.GetFileName(fui) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin", FileMode.Create, FileAccess.Write);
+                var fileStreamx = new FileStream(Program.TempDir + Path.GetFileName(fui) + "\\" + Path.GetFileNameWithoutExtension(fui) + ".bin", FileMode.Create, FileAccess.Write);
                 fsx.CopyTo(fileStreamx);
                 fileStreamx.Dispose();
                 ImageList imageList = new ImageList();
@@ -87,7 +85,7 @@ namespace FUI_Studio.Classes
 
                 TreeNode tn = new TreeNode();
                 tn.Text = "images";
-                tn.Tag = TempDir + Path.GetFileName(fui) + "\\images\\";
+                tn.Tag = Program.TempDir + Path.GetFileName(fui) + "\\images\\";
                 tn.ImageIndex = 1;
 
                 tnx.Nodes.Add(tn);
@@ -273,7 +271,7 @@ namespace FUI_Studio.Classes
                 treeView1.Nodes.Add(tnx);
                 foreach (TreeNode reference in tnb.Nodes)
                 {
-                    if (reference.Text.Replace(".ref", "") != Path.GetFileName(fui) && !Directory.Exists(TempDir + reference.Text.Replace(".ref", "")) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")) && LoadReferences)
+                    if (reference.Text.Replace(".ref", "") != Path.GetFileName(fui) && !Directory.Exists(Program.TempDir + reference.Text.Replace(".ref", "")) && File.Exists(Path.GetDirectoryName(fui) + "\\" + reference.Text.Replace(".ref", "")) && LoadReferences)
                     {
                         DialogResult dr = MessageBox.Show(Path.GetFileName(fui) + " is dependent on:" + reference.Text.Replace(".ref", "") + "\nLoad File?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                         if (dr == DialogResult.Yes)

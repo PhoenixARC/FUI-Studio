@@ -54,10 +54,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>FUIStudio.pfx</AssemblyOriginatorKeyFile>
@@ -180,6 +180,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="bin\Release\Data\FuiIMGData_Enc.db" />
     <None Include="FUIStudio.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

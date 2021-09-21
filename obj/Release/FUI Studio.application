@@ -7,14 +7,14 @@
     <framework targetVersion="4.8" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="FUI Studio.exe.manifest" size="6515">
+    <dependentAssembly dependencyType="install" codebase="FUI Studio.exe.manifest" size="6379">
       <assemblyIdentity name="FUI Studio.exe" version="1.0.0.0" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>bs3IAOl9NwnTm11gvl289dY1UHyt8y8qUZTPC4hd4o0=</dsig:DigestValue>
+        <dsig:DigestValue>gUar9x3n0lwcTpK7+iCvjVxJBe2+2GnJvsBTOpBkZ2M=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

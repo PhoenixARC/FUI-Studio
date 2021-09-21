@@ -12,12 +12,17 @@ namespace FUI_Studio
 {
     static class Program
     {
+
+
+        public static string TempDir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Fui Studio\\";
+        public static bool IsPortable = false;
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main(string[] args)
         {
+
             try
             {
                 //Console.WriteLine(BitConverter.ToString(GetMD5(Environment.CurrentDirectory + "\\FUI Studio.exe")).Replace("-", ""));

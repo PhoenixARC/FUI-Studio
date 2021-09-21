@@ -1,7 +1,7 @@
 C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Release\updater.exe.config
 C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Release\updater.exe
 C:\Users\phoen\source\repos\##FUI Studio\updater\bin\Release\updater.pdb
-C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Release\updater.csprojAssemblyReference.cache
 C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Release\updater.csproj.CoreCompileInputs.cache
 C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Release\updater.exe
 C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Release\updater.pdb
+C:\Users\phoen\source\repos\##FUI Studio\updater\obj\Release\updater.csproj.AssemblyReference.cache

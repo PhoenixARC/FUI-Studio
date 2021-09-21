@@ -12,7 +12,6 @@ C:\Users\phoen\source\repos\FUI Studio\obj\Release\FUI_Studio.Forms.Form1.resour
 C:\Users\phoen\source\repos\FUI Studio\obj\Release\FUI Studio.TrustInfo.xml
 C:\Users\phoen\source\repos\FUI Studio\obj\Release\FUI Studio.exe.manifest
 C:\Users\phoen\source\repos\FUI Studio\obj\Release\FUI Studio.application
-C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI Studio.csprojAssemblyReference.cache
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.about.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Form1.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Properties.Resources.resources
@@ -40,3 +39,4 @@ C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Form1.ja.r
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\ja\FUI Studio.resources.dll
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\en\FUI Studio.resources.dll
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.ja.resources
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI Studio.csproj.AssemblyReference.cache
