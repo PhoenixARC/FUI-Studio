@@ -19,7 +19,7 @@ namespace updater
 		}
 
 
-		private static string ServerXML = "http://www.pckstudio.tk/studio/FUI/update.xml";
+		private static string ServerXML = "http://www.pckstudio.xyz/studio/FUI/update.xml";
 		private static string backupServerXML = "http://phoenixarc.github.io/pckstudio.tk/studio/FUI/update.xml";
 
 
