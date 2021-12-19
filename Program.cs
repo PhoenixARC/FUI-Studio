@@ -37,27 +37,10 @@ namespace FUI_Studio
             {
 
             }
-            if (args.Length > 0)
-            {
-                if (args[0] == "true" || args[1] == "true")
-                {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Forms.Debug(args));
-                }
-                else
-                {
-                    Application.EnableVisualStyles();
-                    Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Forms.Form1(args, false, true, true, true, false));
-                }
-            }
-            else
-            {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Forms.Form1(args, false, true, true, true, false));
-            }
+            
         }
 
         static byte[] GetMD5(string filename)

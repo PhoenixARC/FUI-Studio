@@ -40,3 +40,4 @@ C:\Users\phoen\source\repos\##FUI Studio\obj\Release\ja\FUI Studio.resources.dll
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\en\FUI Studio.resources.dll
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.Debug.ja.resources
 C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI Studio.csproj.AssemblyReference.cache
+C:\Users\phoen\source\repos\##FUI Studio\obj\Release\FUI_Studio.Forms.LoadingFileDialog.resources

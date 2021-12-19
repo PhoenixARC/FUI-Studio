@@ -23,7 +23,7 @@ namespace FUI_Studio.Classes
 
             try
             {
-                if(!isReference)
+                if (!isReference)
                     foreach (string dir in Directory.GetDirectories(Program.TempDir))
                     {
                         Directory.Delete(dir, true);
@@ -74,7 +74,7 @@ namespace FUI_Studio.Classes
                 int imageNo = 0;
                 int PNGNo = 0;
 
-                if(!isReference)
+                if (!isReference)
                     treeView1.Nodes.Clear();
 
                 TreeNode tnx = new TreeNode();
@@ -115,7 +115,7 @@ namespace FUI_Studio.Classes
 
                 imgList.Clear();
 
-                if(Loadimages)
+                if (Loadimages)
                     ImageProcessor.extractImage(fui, imgList);
 
                 List<string> LabelList = new List<string>();
@@ -132,13 +132,13 @@ namespace FUI_Studio.Classes
                         {
 
                             string newdata = System.Text.Encoding.Default.GetString(HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                                LabelList.Add(newdata);
+                            LabelList.Add(newdata);
                         }
                         if (reference.Contains("3C 70 20 61") && DisplayFont)
                         {
 
                             string newdata = System.Text.Encoding.Default.GetString(HexTools.StringToByteArrayFastest((reference.Replace("FF FF ", "").Replace(" ", ""))));
-                                FontList.Add(newdata);
+                            FontList.Add(newdata);
                         }
                         if (reference.Contains("2E 73 77 66") && LoadReferences)
                         {
@@ -337,5 +337,355 @@ namespace FUI_Studio.Classes
             }
         }
 
+        public static void OpenFUINew(FourJ.FourJUserInterface.FUI fui, bool isReference, TreeView treeView1, int FuiIndex)
+        {
+
+            if (!isReference)
+            {
+                treeView1.Nodes.Clear();
+            }
+            TreeNode TN0 = new TreeNode(fui.header.SwfFileName.Replace(System.Text.Encoding.ASCII.GetString(new byte[] { 00 }), ""));
+
+
+            ImageList imageList = new ImageList();
+            imageList.ColorDepth = ColorDepth.Depth32Bit;
+            imageList.ImageSize = new Size(20, 20);
+            imageList.Images.Add(Properties.Resources.Selected);
+            imageList.Images.Add(Properties.Resources.FolderIcon);
+            imageList.Images.Add(Properties.Resources.ImgIcon);
+            imageList.Images.Add(Properties.Resources.metaa);
+            imageList.Images.Add(Properties.Resources.font);
+            imageList.Images.Add(Properties.Resources.element);
+            treeView1.ImageList = imageList;
+
+            TN0.Tag = FuiIndex;
+            TN0.ImageIndex = 1;
+
+
+            if (fui.timelines.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("Timelines");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Timeline tl in fui.timelines)
+                {
+                    TreeNode TN2 = new TreeNode("fuiTimeline" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.timelineActions.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("TimelineActions");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.TimelineAction tl in fui.timelineActions)
+                {
+                    TreeNode TN2 = new TreeNode("fuiTimelineAction" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.shapes.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("Shapes");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Shape tl in fui.shapes)
+                {
+                    TreeNode TN2 = new TreeNode("fuiShape" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.shapeComponents.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("ShapeComponents");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.ShapeComponent tl in fui.shapeComponents)
+                {
+                    TreeNode TN2 = new TreeNode("fuiShapeComponent" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.verts.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("Verts");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Vert tl in fui.verts)
+                {
+                    TreeNode TN2 = new TreeNode("fuiVert" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.timelineFrames.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("TimelineFrames");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.TimelineFrame tl in fui.timelineFrames)
+                {
+                    TreeNode TN2 = new TreeNode("fuiTimelineFrame" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.timelineEvents.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("TimelineEvents");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.TimelineEvent tl in fui.timelineEvents)
+                {
+                    TreeNode TN2 = new TreeNode("fuiTimelineEvent" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.timelineEventNames.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("TimelineEventNames");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.TimelineEventName tl in fui.timelineEventNames)
+                {
+                    TreeNode TN2 = new TreeNode("fuiTimelineEventName" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.references.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("References");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Reference tl in fui.references)
+                {
+                    TreeNode TN2 = new TreeNode("fuiReference" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.edittexts.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("EditTexts");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Edittext tl in fui.edittexts)
+                {
+                    TreeNode TN2 = new TreeNode("fuiEditText" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.fontNames.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("FontNames");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.FontName tl in fui.fontNames)
+                {
+                    TreeNode TN2 = new TreeNode("fuiFontName" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.symbols.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("Symbols");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Symbol tl in fui.symbols)
+                {
+                    TreeNode TN2 = new TreeNode("fuiSymbol" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.importAssets.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("ImportAssets");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.ImportAsset tl in fui.importAssets)
+                {
+                    TreeNode TN2 = new TreeNode("fuiImportAsset" + i);
+
+                    TN2.ImageIndex = 3;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+            if (fui.bitmaps.Count != 0)
+            {
+                TreeNode TN1 = new TreeNode("Bitmaps");
+
+                TN1.ImageIndex = 1;
+
+                int i = 0;
+
+                foreach (FourJ.FourJUserInterface.Bitmap tl in fui.bitmaps)
+                {
+                    TreeNode TN2 = new TreeNode("fuiBitmap" + i);
+
+                    TN2.ImageIndex = 2;
+
+                    TN2.Tag = i;
+                    i++;
+
+                    TN1.Nodes.Add(TN2);
+                }
+
+
+                TN0.Nodes.Add(TN1);
+            }
+
+            treeView1.Nodes.Add(TN0);
+        }
     }
 }

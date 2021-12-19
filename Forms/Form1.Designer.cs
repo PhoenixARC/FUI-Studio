@@ -46,8 +46,9 @@ namespace FUI_Studio.Forms
             this.UPDATEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new FUI_Studio.PictureBoxWithInterpolationMode();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.testingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pictureBox1 = new FUI_Studio.PictureBoxWithInterpolationMode();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -56,19 +57,19 @@ namespace FUI_Studio.Forms
             // 
             // treeView1
             // 
-            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
+            resources.ApplyResources(this.treeView1, "treeView1");
             this.treeView1.Name = "treeView1";
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
             // 
             // contextMenuStrip1
             // 
-            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.extractToolStripMenuItem,
             this.replaceToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
             // extractToolStripMenuItem
             // 
@@ -84,67 +85,68 @@ namespace FUI_Studio.Forms
             // 
             // menuStrip1
             // 
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.openWorkingDirectoryToolStripMenuItem,
             this.helpToolStripMenuItem,
             this.CheckDBMenuItem,
             this.UPDATEToolStripMenuItem});
+            resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            resources.ApplyResources(this.fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
             // openToolStripMenuItem
             // 
-            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            resources.ApplyResources(this.openToolStripMenuItem, "openToolStripMenuItem");
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
-            resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            resources.ApplyResources(this.saveToolStripMenuItem, "saveToolStripMenuItem");
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // openWorkingDirectoryToolStripMenuItem
             // 
-            resources.ApplyResources(this.openWorkingDirectoryToolStripMenuItem, "openWorkingDirectoryToolStripMenuItem");
             this.openWorkingDirectoryToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.openWorkingDirectoryToolStripMenuItem.Name = "openWorkingDirectoryToolStripMenuItem";
+            resources.ApplyResources(this.openWorkingDirectoryToolStripMenuItem, "openWorkingDirectoryToolStripMenuItem");
             this.openWorkingDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openWorkingDirectoryToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem});
+            this.aboutToolStripMenuItem,
+            this.testingToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
             // aboutToolStripMenuItem
             // 
-            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // CheckDBMenuItem
             // 
-            resources.ApplyResources(this.CheckDBMenuItem, "CheckDBMenuItem");
             this.CheckDBMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.CheckDBMenuItem.Name = "CheckDBMenuItem";
+            resources.ApplyResources(this.CheckDBMenuItem, "CheckDBMenuItem");
             this.CheckDBMenuItem.Click += new System.EventHandler(this.CheckDBMenuItem_Click);
             // 
             // UPDATEToolStripMenuItem
             // 
-            resources.ApplyResources(this.UPDATEToolStripMenuItem, "UPDATEToolStripMenuItem");
             this.UPDATEToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.UPDATEToolStripMenuItem.Name = "UPDATEToolStripMenuItem";
+            resources.ApplyResources(this.UPDATEToolStripMenuItem, "UPDATEToolStripMenuItem");
             this.UPDATEToolStripMenuItem.Click += new System.EventHandler(this.UPDATEToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
@@ -159,13 +161,6 @@ namespace FUI_Studio.Forms
             resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.Name = "richTextBox1";
             // 
-            // pictureBox1
-            // 
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Default;
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.TabStop = false;
-            // 
             // checkBox1
             // 
             resources.ApplyResources(this.checkBox1, "checkBox1");
@@ -173,6 +168,19 @@ namespace FUI_Studio.Forms
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.UseVisualStyleBackColor = false;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // testingToolStripMenuItem
+            // 
+            this.testingToolStripMenuItem.Name = "testingToolStripMenuItem";
+            resources.ApplyResources(this.testingToolStripMenuItem, "testingToolStripMenuItem");
+            this.testingToolStripMenuItem.Click += new System.EventHandler(this.testingToolStripMenuItem_Click);
+            // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Default;
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
@@ -216,6 +224,7 @@ namespace FUI_Studio.Forms
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem UPDATEToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CheckDBMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testingToolStripMenuItem;
     }
 }
 

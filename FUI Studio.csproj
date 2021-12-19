@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\FUI.cs" />
     <Compile Include="Classes\HexTools.cs" />
     <Compile Include="Classes\ImageProcessor.cs" />
     <Compile Include="Classes\LoadFUI.cs" />
@@ -138,6 +139,12 @@
     <Compile Include="Forms\ImageViewerForm.Designer.cs">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\LoadingFileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoadingFileDialog.Designer.cs">
+      <DependentUpon>LoadingFileDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\about.ja.resx">
@@ -169,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImageViewerForm.resx">
       <DependentUpon>ImageViewerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoadingFileDialog.resx">
+      <DependentUpon>LoadingFileDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
