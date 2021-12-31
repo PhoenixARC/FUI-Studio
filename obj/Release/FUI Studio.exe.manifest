@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="423424">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="431616">
       <assemblyIdentity name="FUI Studio" version="1.6.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>I+gabYStVWLVVPBdETTaKt7OTrfaCT+fuPp6cbPwjFY=</dsig:DigestValue>
+        <dsig:DigestValue>CD6vs3IfiiT1MBuLRVESq6DoTLQWt6V+qIylyEYUY3k=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,7 +62,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>IFX8lvbC1GRtljnbTmLg2FNIKJDLBOnFFx+3n6ok4iY=</dsig:DigestValue>
+        <dsig:DigestValue>mVYpBPlsTo+XroP49tu40qRNf9R8Gn//O1cjXTWAtug=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -74,7 +74,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>POV0+Sm3BWl4xo/a/t+zMjB+fUZqFYyJrOMdg5eIvzY=</dsig:DigestValue>
+        <dsig:DigestValue>3H2BwryaVazlgj3SEGxcb7vC+a8dTlXjBKtiqrEIb2Q=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

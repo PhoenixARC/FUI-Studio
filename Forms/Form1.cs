@@ -113,54 +113,65 @@ namespace FUI_Studio.Forms
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.Timeline tl = Fuis[FuiNum].timelines[IndexInt];
-                richTextBox1.Text = "ObjectType:" + tl.ObjectType + "\nUnk0:" + BitConverter.ToString(tl.Unknown) + "\nRectangle:" + BitConverter.ToString(tl.Rectangle);
+                richTextBox1.Text = "ObjectType:" + tl.ObjectType + "\nFrameIndex:" + tl.FrameIndex + "\nFrameCount:" + tl.FrameCount + "\nActionIndex:" + tl.ActionIndex + "\nActionCount:" + tl.ActionCount + "\nRectangle:" + BitConverter.ToString(tl.Rectangle.totalbytes);
+
+                
             }
             else if (treeView1.SelectedNode.Parent.Text == "TimelineActions")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
-                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.TimelineAction tl = Fuis[FuiNum].timelineActions[IndexInt];
-                richTextBox1.Text = "Unk0:" + BitConverter.ToString(tl.Unknown) + "\nUnkStr0:" + tl.UnknownName1.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nUnkStr1:" + tl.UnknownName2;
+                richTextBox1.Text = "ActionType:" + (tl.ActionType) + "\nUnknown:" + (tl.Unknown) + "\nUnkStr0:" + tl.UnknownName1.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nUnkStr1:" + tl.UnknownName2;
             }
             else if (treeView1.SelectedNode.Parent.Text == "Shapes")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.Shape tl = Fuis[FuiNum].shapes[IndexInt];
-                richTextBox1.Text = "UnkVal0:" + tl.UnknownValue1 + "\nUnkVal1:" + tl.UnknownValue2 + "\nObjectType:" + tl.ObjectType + "\nRectangle:" + BitConverter.ToString(tl.Rectangle);
+                richTextBox1.Text = "UnkVal0:" + tl.UnknownValue1 + "\nUnkVal1:" + tl.UnknownValue2 + "\nObjectType:" + tl.ObjectType + "\nRectangle:" + BitConverter.ToString(tl.Rectangle.totalbytes);
             }
             else if (treeView1.SelectedNode.Parent.Text == "ShapeComponents")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.ShapeComponent tl = Fuis[FuiNum].shapeComponents[IndexInt];
-                richTextBox1.Text = "FillInfo:" + BitConverter.ToString(tl.FillInfo) + "\nUnkVal0:" + tl.UnknownValue1 + "\nUnkVal1:" + tl.UnknownValue2;
+                richTextBox1.Text = "FillInfo:" + BitConverter.ToString(tl.FillInfo.totalbytes) + "\nUnkVal0:" + tl.UnknownValue1 + "\nUnkVal1:" + tl.UnknownValue2;
             }
             else if (treeView1.SelectedNode.Parent.Text == "Verts")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.Vert tl = Fuis[FuiNum].verts[IndexInt];
-                richTextBox1.Text = "X:" + tl.x + "\nY:" + tl.y;
+                if (BitConverter.ToInt32(tl.x, 0) > 1000000 || BitConverter.ToInt32(tl.y, 0) > 1000000)
+                {
+                    int x = BitConverter.ToInt32(tl.x.Skip(0).Take(4).Reverse().ToArray(), 0);
+                    int y = BitConverter.ToInt32(tl.y.Skip(0).Take(4).Reverse().ToArray(), 0);
+                    richTextBox1.Text = "X:" + x + "\nY:" + y;
+                }
+                else
+                {
+                    richTextBox1.Text = "X:" + BitConverter.ToInt32(tl.x, 0) + "\nY:" + BitConverter.ToInt32(tl.y, 0);
+                }
             }
             else if (treeView1.SelectedNode.Parent.Text == "TimelineFrames")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
-                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.TimelineFrame tl = Fuis[FuiNum].timelineFrames[IndexInt];
-                richTextBox1.Text = "FrameName:" + tl.FrameName.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nUnkVal0:" + tl.Unknown1 + "\nUnkVal1:" + tl.Unknown2;
+                richTextBox1.Text = "FrameName:" + tl.FrameName.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nEventIndex:" + tl.EventIndex + "\nEventCount:" + tl.EventCount;
             }
             else if (treeView1.SelectedNode.Parent.Text == "TimelineEvents")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
-                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Parent.Parent.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.TimelineEvent tl = Fuis[FuiNum].timelineEvents[IndexInt];
-                richTextBox1.Text = "Unk0:" + BitConverter.ToString(tl.Unknown) + "\nMatrix:" + BitConverter.ToString(tl.matrix) + "\nColorTransform:" + BitConverter.ToString(tl.ColorTransform) + "\nColor:" + BitConverter.ToString(tl.Color);
+                richTextBox1.Text = "EventType:" + BitConverter.ToInt16(tl.EventType, 0) + "\nObjectType:" + BitConverter.ToInt16(tl.ObjectType, 0) + "\nUnknown0:" + BitConverter.ToInt16(tl.Unknown0, 0) + "\nIndex:" + BitConverter.ToInt16(tl.Index, 0) + "\nUnknown1:" + BitConverter.ToInt16(tl.Unknown1, 0) + "\nNameIndex:" + BitConverter.ToInt16(tl.NameIndex, 0) + "\nMatrix:" + BitConverter.ToString(tl.matrix.totalbytes) + "\nColorTransform:" + BitConverter.ToString(tl.ColorTransform.totalbytes) + "\nColor:" + BitConverter.ToString(tl.Color.totalbytes);
             }
             else if (treeView1.SelectedNode.Parent.Text == "TimelineEventNames")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
-                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.TimelineEventName tl = Fuis[FuiNum].timelineEventNames[IndexInt];
                 richTextBox1.Text = "EventName:" + tl.EventName;
             }
@@ -169,14 +180,14 @@ namespace FUI_Studio.Forms
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.Reference tl = Fuis[FuiNum].references[IndexInt];
-                richTextBox1.Text = "UnkVal0:" + tl.Unknown1 + "\nReferenceName:" + tl.ReferenceName.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nUnkVal1:" + BitConverter.ToString(tl.Unknown2);
+                richTextBox1.Text = "SymbolIndex:" + tl.SymbolIndex + "\nReferenceName:" + tl.ReferenceName.Replace(Encoding.ASCII.GetString(new byte[] { 0x00 }), "") + "\nFuiIndex:" + BitConverter.ToString(tl.Index);
             }
             else if (treeView1.SelectedNode.Parent.Text == "EditTexts")
             {
                 int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
                 int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
                 FourJ.FourJUserInterface.Edittext tl = Fuis[FuiNum].edittexts[IndexInt];
-                richTextBox1.Text = "UnkVal0:" + tl.Unknown1 + "\nRectangle:" + BitConverter.ToString(tl.rectangle) + "\nUnkVal1:" + tl.Unknown2 + "\nUnkVal2:" + BitConverter.ToString(tl.Unknown3) + "\nColor:" + BitConverter.ToString(tl.Color) + "\nUnkVal3:" + BitConverter.ToString(tl.Unknown4) + "\nHtmlTextFormat:" + tl.htmlTextFormat;
+                richTextBox1.Text = "UnkVal0:" + tl.Unknown1 + "\nRectangle:" + BitConverter.ToString(tl.rectangle.totalbytes) + "\nUnkVal1:" + tl.Unknown2 + "\nUnkVal2:" + BitConverter.ToString(tl.Unknown3) + "\nColor:" + BitConverter.ToString(tl.Color.totalbytes) + "\nUnkVal3:" + BitConverter.ToString(tl.Unknown4) + "\nHtmlTextFormat:" + tl.htmlTextFormat;
             }
             else if (treeView1.SelectedNode.Parent.Text == "FontNames")
             {
@@ -602,6 +613,128 @@ namespace FUI_Studio.Forms
             Encoding.ASCII.GetBytes("Hello World!").CopyTo(Dat, 0);
             Console.WriteLine(Encoding.ASCII.GetString(Dat));
 
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode.Parent.Text == "Timelines")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Timeline tl = Fuis[FuiNum].timelines[IndexInt];
+                Fuis[FuiNum].timelines.Remove(tl);
+                Fuis[FuiNum].header.fuiTimelineCount--;
+
+
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "TimelineActions")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.TimelineAction tl = Fuis[FuiNum].timelineActions[IndexInt];
+                Fuis[FuiNum].timelineActions.Remove(tl);
+                Fuis[FuiNum].header.fuiTimelineActionCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "Shapes")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Shape tl = Fuis[FuiNum].shapes[IndexInt];
+                Fuis[FuiNum].shapes.Remove(tl);
+                Fuis[FuiNum].header.fuiShapeCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "ShapeComponents")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.ShapeComponent tl = Fuis[FuiNum].shapeComponents[IndexInt];
+                Fuis[FuiNum].shapeComponents.Remove(tl);
+                Fuis[FuiNum].header.fuiShapeComponentCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "Verts")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Vert tl = Fuis[FuiNum].verts[IndexInt];
+                Fuis[FuiNum].verts.Remove(tl);
+                Fuis[FuiNum].header.fuiVertCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "TimelineFrames")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.TimelineFrame tl = Fuis[FuiNum].timelineFrames[IndexInt];
+                Fuis[FuiNum].timelineFrames.Remove(tl);
+                Fuis[FuiNum].header.fuiTimelineFrameCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "TimelineEvents")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.TimelineEvent tl = Fuis[FuiNum].timelineEvents[IndexInt];
+                Fuis[FuiNum].timelineEvents.Remove(tl);
+                Fuis[FuiNum].header.fuiTimelineEventCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "TimelineEventNames")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.TimelineEventName tl = Fuis[FuiNum].timelineEventNames[IndexInt];
+                Fuis[FuiNum].timelineEventNames.Remove(tl);
+                Fuis[FuiNum].header.fuiTimelineEventNameCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "References")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Reference tl = Fuis[FuiNum].references[IndexInt];
+                Fuis[FuiNum].references.Remove(tl);
+                Fuis[FuiNum].header.fuiReferenceCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "EditTexts")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Edittext tl = Fuis[FuiNum].edittexts[IndexInt];
+                Fuis[FuiNum].edittexts.Remove(tl);
+                Fuis[FuiNum].header.fuiEdittextCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "FontNames")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.FontName tl = Fuis[FuiNum].fontNames[IndexInt];
+                Fuis[FuiNum].fontNames.Remove(tl);
+                Fuis[FuiNum].header.fuiFontNameCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "Symbols")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Symbol tl = Fuis[FuiNum].symbols[IndexInt];
+                Fuis[FuiNum].symbols.Remove(tl);
+                Fuis[FuiNum].header.fuiSymbolCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "ImportAssets")
+            {
+                int IndexInt = int.Parse(treeView1.SelectedNode.Tag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.ImportAsset tl = Fuis[FuiNum].importAssets[IndexInt];
+                Fuis[FuiNum].importAssets.Remove(tl);
+                Fuis[FuiNum].header.fuiImportAssetCount--;
+            }
+            else if (treeView1.SelectedNode.Parent.Text == "Bitmaps")
+            {
+                object NodeTag = treeView1.SelectedNode.Tag;
+                int BitmNum = int.Parse(NodeTag.ToString());
+                int FuiNum = int.Parse(treeView1.SelectedNode.Parent.Parent.Tag.ToString());
+                FourJ.FourJUserInterface.Bitmap tl = Fuis[FuiNum].bitmaps[BitmNum];
+                Fuis[FuiNum].bitmaps.Remove(tl);
+                Fuis[FuiNum].header.fuiBitmapCount--;
+
+            }
+
+            treeView1.SelectedNode.Remove();
         }
     }
 }

@@ -375,32 +375,104 @@ namespace FUI_Studio.Classes
                     TreeNode TN2 = new TreeNode("fuiTimeline" + i);
 
                     TN2.ImageIndex = 3;
+                    
 
                     TN2.Tag = i;
                     i++;
 
-                    TN1.Nodes.Add(TN2);
-                }
+
+                    if (tl.FrameCount != 0)
+                    {
+                        TreeNode TN3 = new TreeNode("TimelineFrames");
+
+                        TN3.ImageIndex = 1;
+
+                        int x = tl.FrameIndex;
+
+                        while (x < tl.FrameIndex + tl.FrameCount)
+                        {
+                            TreeNode TN4 = new TreeNode("fuiTimelineFrame" + x);
+
+                            TN4.ImageIndex = 3;
+
+                            TN4.Tag = x;
+                            x++;
 
 
-                TN0.Nodes.Add(TN1);
-            }
-            if (fui.timelineActions.Count != 0)
-            {
-                TreeNode TN1 = new TreeNode("TimelineActions");
+                            if (fui.timelineFrames[x - 1].EventCount != 0)
+                            {
+                                TreeNode TN5 = new TreeNode("TimelineEvents");
 
-                TN1.ImageIndex = 1;
+                                TN5.ImageIndex = 1;
+                                int y = (fui.timelineFrames[x - 1].EventIndex);
 
-                int i = 0;
+                                while (y < (fui.timelineFrames[x - 1].EventIndex + fui.timelineFrames[x - 1].EventCount))
+                                {
+                                    TreeNode TN6 = new TreeNode("fuiTimelineEvent" + y);
 
-                foreach (FourJ.FourJUserInterface.TimelineAction tl in fui.timelineActions)
-                {
-                    TreeNode TN2 = new TreeNode("fuiTimelineAction" + i);
+                                    TN6.ImageIndex = 3;
 
-                    TN2.ImageIndex = 3;
+                                    TN6.Tag = y;
+                                    y++;
 
-                    TN2.Tag = i;
-                    i++;
+
+                                    if (BitConverter.ToInt16(fui.timelineEvents[y - 1].NameIndex, 0) >= 0) 
+                                    {
+                                        TreeNode TN7 = new TreeNode("TimelineEventNames");
+
+                                        TN7.ImageIndex = 1;
+
+                                        Int16 z = BitConverter.ToInt16(fui.timelineEvents[y - 1].NameIndex, 0);
+
+                                        TreeNode TN8 = new TreeNode("fuiTimelineEventName" + z);
+
+                                        TN8.ImageIndex = 3;
+
+                                        TN8.Tag = int.Parse(z + "");
+
+                                        TN7.Nodes.Add(TN8);
+
+
+                                        TN6.Nodes.Add(TN7);
+                                    }
+
+
+                                    TN5.Nodes.Add(TN6);
+                                }
+
+
+                                TN4.Nodes.Add(TN5);
+                            }
+
+                            TN3.Nodes.Add(TN4);
+                        }
+
+
+                        TN2.Nodes.Add(TN3);
+                    }
+                    if (tl.ActionCount != 0)
+                    {
+                        TreeNode TN3 = new TreeNode("TimelineActions");
+
+                        TN3.ImageIndex = 1;
+
+                        int x = tl.ActionIndex;
+
+                        while (x < tl.ActionIndex + tl.ActionCount)
+                        {
+                            TreeNode TN4 = new TreeNode("fuiTimelineAction" + x);
+
+                            TN4.ImageIndex = 3;
+
+                            TN4.Tag = x;
+                            x++;
+
+                            TN3.Nodes.Add(TN4);
+                        }
+
+
+                        TN2.Nodes.Add(TN3);
+                    }
 
                     TN1.Nodes.Add(TN2);
                 }
@@ -465,75 +537,6 @@ namespace FUI_Studio.Classes
                 foreach (FourJ.FourJUserInterface.Vert tl in fui.verts)
                 {
                     TreeNode TN2 = new TreeNode("fuiVert" + i);
-
-                    TN2.ImageIndex = 3;
-
-                    TN2.Tag = i;
-                    i++;
-
-                    TN1.Nodes.Add(TN2);
-                }
-
-
-                TN0.Nodes.Add(TN1);
-            }
-            if (fui.timelineFrames.Count != 0)
-            {
-                TreeNode TN1 = new TreeNode("TimelineFrames");
-
-                TN1.ImageIndex = 1;
-
-                int i = 0;
-
-                foreach (FourJ.FourJUserInterface.TimelineFrame tl in fui.timelineFrames)
-                {
-                    TreeNode TN2 = new TreeNode("fuiTimelineFrame" + i);
-
-                    TN2.ImageIndex = 3;
-
-                    TN2.Tag = i;
-                    i++;
-
-                    TN1.Nodes.Add(TN2);
-                }
-
-
-                TN0.Nodes.Add(TN1);
-            }
-            if (fui.timelineEvents.Count != 0)
-            {
-                TreeNode TN1 = new TreeNode("TimelineEvents");
-
-                TN1.ImageIndex = 1;
-
-                int i = 0;
-
-                foreach (FourJ.FourJUserInterface.TimelineEvent tl in fui.timelineEvents)
-                {
-                    TreeNode TN2 = new TreeNode("fuiTimelineEvent" + i);
-
-                    TN2.ImageIndex = 3;
-
-                    TN2.Tag = i;
-                    i++;
-
-                    TN1.Nodes.Add(TN2);
-                }
-
-
-                TN0.Nodes.Add(TN1);
-            }
-            if (fui.timelineEventNames.Count != 0)
-            {
-                TreeNode TN1 = new TreeNode("TimelineEventNames");
-
-                TN1.ImageIndex = 1;
-
-                int i = 0;
-
-                foreach (FourJ.FourJUserInterface.TimelineEventName tl in fui.timelineEventNames)
-                {
-                    TreeNode TN2 = new TreeNode("fuiTimelineEventName" + i);
 
                     TN2.ImageIndex = 3;
 
