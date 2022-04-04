@@ -80,7 +80,7 @@ namespace FUI_Studio.Forms
         {
             var fui = FUIFile.Open(fuiFilepath);
             var fuiFileIndex = FUIFileTreeView.GetNodeCount(false);
-            FUIFileTreeView.Nodes.Add(FUIUtil.ConstructFUITreeNode(fui, fuiFileIndex));
+            FUIFileTreeView.Nodes.Add(FUIUtil.ConstructTreeNode(fui, fuiFileIndex));
             openFuiFiles.Add(fui);
         }
 
