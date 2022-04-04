@@ -99,7 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\FUI.cs" />
-    <Compile Include="Classes\FUITreeNode.cs" />
     <Compile Include="Classes\fui\Bitmap.cs" />
     <Compile Include="Classes\fui\ColorTransform.cs" />
     <Compile Include="Classes\fui\Edittext.cs" />

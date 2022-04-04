@@ -16,24 +16,24 @@ namespace FUI_Studio.Classes
                 node.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
             for (int i = 0; i < dataList.Count; i++)
             {
-                FUITreeNode subNode = new FUITreeNode($"{SubNodePrefix}{i}");
+                TreeNode subNode = new TreeNode($"{SubNodePrefix}{i}");
                 subNode.ImageIndex = (int)eTreeViewImgTag.BaseIcon;
                 node.Nodes.Add(subNode);
             }
         }
 
-        private static FUITreeNode fastConstructNode<T>(in List<T> dataList, string NodeName, string SubNodePrefix)
+        private static TreeNode fastConstructNode<T>(in List<T> dataList, string NodeName, string SubNodePrefix)
         {
             if (dataList.Count == 0) return null;
-            FUITreeNode fastConstructedNode = new FUITreeNode(NodeName);
+            TreeNode fastConstructedNode = new TreeNode(NodeName);
             fastConstructedNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
             ExtendTreeNode(fastConstructedNode, dataList, SubNodePrefix);
             return fastConstructedNode;
         }
 
-        public static FUITreeNode ConstructFUITreeNode(in FourJ.UserInterface.FUIFile fui, int FuiIndex)
+        public static TreeNode ConstructTreeNode(in FourJ.UserInterface.FUIFile fui, int FuiIndex)
         {
-            FUITreeNode rootNode = new FUITreeNode(fui.header.SwfFileName.Replace("\0", ""));
+            TreeNode rootNode = new TreeNode(fui.header.SwfFileName.Replace("\0", ""));
 
             rootNode.Tag = FuiIndex;
             rootNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
