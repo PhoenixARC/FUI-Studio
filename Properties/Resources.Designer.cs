@@ -63,6 +63,16 @@ namespace FUI_Studio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BaseIcon {
+            get {
+                object obj = ResourceManager.GetObject("BaseIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap element {
             get {
                 object obj = ResourceManager.GetObject("element", resourceCulture);
@@ -83,9 +93,9 @@ namespace FUI_Studio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap font {
+        internal static System.Drawing.Bitmap FontIcon {
             get {
-                object obj = ResourceManager.GetObject("font", resourceCulture);
+                object obj = ResourceManager.GetObject("FontIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -96,16 +106,6 @@ namespace FUI_Studio.Properties {
         internal static System.Drawing.Bitmap ImgIcon {
             get {
                 object obj = ResourceManager.GetObject("ImgIcon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap metaa {
-            get {
-                object obj = ResourceManager.GetObject("metaa", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

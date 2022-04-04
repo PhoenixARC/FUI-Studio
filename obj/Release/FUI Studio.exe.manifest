@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="431616">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="391168">
       <assemblyIdentity name="FUI Studio" version="1.6.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>CD6vs3IfiiT1MBuLRVESq6DoTLQWt6V+qIylyEYUY3k=</dsig:DigestValue>
+        <dsig:DigestValue>zTMZfLrXxoK2y8o1v72U5iAxCe9ct3Wwq8EkZPuxgbs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -62,19 +62,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>mVYpBPlsTo+XroP49tu40qRNf9R8Gn//O1cjXTWAtug=</dsig:DigestValue>
+        <dsig:DigestValue>FBDvdM6kvQJQ3h99QTYqsRzO7EGjfFyaaIOSxugdcRk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ja\FUI Studio.resources.dll" size="109056">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ja\FUI Studio.resources.dll" size="107520">
       <assemblyIdentity name="FUI Studio.resources" version="1.6.2.0" language="ja" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3H2BwryaVazlgj3SEGxcb7vC+a8dTlXjBKtiqrEIb2Q=</dsig:DigestValue>
+        <dsig:DigestValue>pZcT85J79Oi69BCyHWj5AWwCzN9GtIpaXHlGwgqy0ig=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

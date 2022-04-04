@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
-    <Install>false</Install>
+    <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
@@ -81,6 +81,9 @@
     <ManifestTimestampUrl>
     </ManifestTimestampUrl>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>FUI_Studio.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -96,6 +99,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\FUI.cs" />
+    <Compile Include="Classes\FUITreeNode.cs" />
+    <Compile Include="Classes\fui\Bitmap.cs" />
+    <Compile Include="Classes\fui\ColorTransform.cs" />
+    <Compile Include="Classes\fui\Edittext.cs" />
+    <Compile Include="Classes\fui\FillStyle.cs" />
+    <Compile Include="Classes\fui\FontName.cs" />
+    <Compile Include="Classes\fui\Header.cs" />
+    <Compile Include="Classes\fui\ImportAsset.cs" />
+    <Compile Include="Classes\fui\Matrix.cs" />
+    <Compile Include="Classes\fui\Object.cs" />
+    <Compile Include="Classes\fui\Rect.cs" />
+    <Compile Include="Classes\fui\Reference.cs" />
+    <Compile Include="Classes\fui\RGBA.cs" />
+    <Compile Include="Classes\fui\Shape.cs" />
+    <Compile Include="Classes\fui\ShapeComponent.cs" />
+    <Compile Include="Classes\fui\Symbol.cs" />
+    <Compile Include="Classes\fui\Timeline.cs" />
+    <Compile Include="Classes\fui\TimelineAction.cs" />
+    <Compile Include="Classes\fui\TimelineEvent.cs" />
+    <Compile Include="Classes\fui\TimelineEventName.cs" />
+    <Compile Include="Classes\fui\TimelineFrame.cs" />
+    <Compile Include="Classes\fui\Vert.cs" />
     <Compile Include="Classes\HexTools.cs" />
     <Compile Include="Classes\ImageProcessor.cs" />
     <Compile Include="Classes\LoadFUI.cs" />
@@ -103,17 +128,12 @@
     <Compile Include="Classes\PictureBoxWithInterpolationMode.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Forms\about.cs">
+    <Compile Include="Classes\Settings.cs" />
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\about.Designer.cs">
-      <DependentUpon>about.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Debug.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Debug.Designer.cs">
-      <DependentUpon>Debug.cs</DependentUpon>
+    <Compile Include="Forms\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditForm.cs">
       <SubType>Form</SubType>
@@ -153,17 +173,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Forms\about.ja.resx">
-      <DependentUpon>about.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\About.ja.resx">
+      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\about.resx">
-      <DependentUpon>about.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Debug.ja.resx">
-      <DependentUpon>Debug.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Debug.resx">
-      <DependentUpon>Debug.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditForm.resx">
       <DependentUpon>EditForm.cs</DependentUpon>
@@ -191,21 +205,20 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="bin\Release\Data\FuiIMGData_Enc.db" />
     <None Include="FUIStudio.pfx" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -219,7 +232,7 @@
     <None Include="Resources\img.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\icons8-open-50.png" />
+    <None Include="Resources\folderIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\metaa.png" />
@@ -243,6 +256,10 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="SharpZipLib">
+      <Version>1.3.3</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

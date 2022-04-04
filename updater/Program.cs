@@ -25,10 +25,6 @@ namespace updater
 
 		private static string localFile = Environment.CurrentDirectory + "\\FUI Studio.exe";
 
-		private static Thread thread;
-
-		private static WebClient webClient;
-
 		public static void downloadUpdate()
 		{
 			try
@@ -44,7 +40,6 @@ namespace updater
 				{
 					MessageBox.Show(ex.Message);
 				}
-				catch { }
 
 				string TryXMLDl = new WebClient().DownloadString(ServerXML);
 				string[] raw = TryXMLDl.Split(new[] { "\n", "\r\n" }, StringSplitOptions.None);

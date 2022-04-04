@@ -4,7 +4,7 @@
   <description asmv2:iconFile="iconDefault.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
-    <assemblyIdentity name="FUI Studio" version="1.0.0.0" publicKeyToken="DCF95BD3166763B7" language="neutral" processorArchitecture="msil" />
+    <assemblyIdentity name="FUI Studio" version="1.6.2.0" language="neutral" processorArchitecture="msil" />
     <commandLine file="FUI Studio.exe" parameters="" />
   </entryPoint>
   <trustInfo>
@@ -43,14 +43,38 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="180296">
-      <assemblyIdentity name="FUI Studio" version="1.0.0.0" publicKeyToken="DCF95BD3166763B7" language="neutral" processorArchitecture="msil" />
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="FUI Studio.exe" size="399360">
+      <assemblyIdentity name="FUI Studio" version="1.6.2.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/PpduVteVAIlHxGYyHS1jQm6cK2TkI1n/9Qtl6YXa3Y=</dsig:DigestValue>
+        <dsig:DigestValue>FTxcbW13sbY4ElwafslO5LAzd062e1Hoa/M0o97saW4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="en\FUI Studio.resources.dll" size="53248">
+      <assemblyIdentity name="FUI Studio.resources" version="1.6.2.0" language="en" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>6Y+mXm2qSPQAJT9TzVFpNMWuT2L3uRAFBq9T901wFdI=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ja\FUI Studio.resources.dll" size="107520">
+      <assemblyIdentity name="FUI Studio.resources" version="1.6.2.0" language="ja" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>pep9NlxDSYbErWGHBUojHtlM5jjShW/zYTxpvoVGU1E=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -86,7 +110,7 @@
       <!-- Windows 8.1 -->
       <!--<supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />-->
       <!-- Windows 10 -->
-      <!--<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />-->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
     </application>
   </compatibility>
 </asmv1:assembly>

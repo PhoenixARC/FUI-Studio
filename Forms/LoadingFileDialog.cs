@@ -1,84 +1,122 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
-using FourJ;
+using static FourJ.UserInterface;
+using FUI_Studio.Classes.fui;
 
 namespace FUI_Studio.Forms
 {
     public partial class LoadingFileDialog : Form
     {
-        public FourJUserInterface.FUI FUI = new FourJ.FourJUserInterface.FUI();
-        public FourJUserInterface.Functions FUIFunct = new FourJUserInterface.Functions();
+        private FUIFile _fuiFile;
+        private byte[] _objectData;
 
-        public LoadingFileDialog(FourJUserInterface.FUI FUIToLoad, string OpenPath)
+        public LoadingFileDialog(ref FUIFile fuiFile, byte[] objectData)
         {
             InitializeComponent();
-            FUI = FUIToLoad;
-            Nom = OpenPath;
+            _fuiFile = fuiFile;
+            _objectData = objectData;
+            progressBar.Value = 0;
+            progressBar.Maximum = fuiFile.header.GetObjectCountSum()-1;
+            FUIFileNameLabel.Text = "Start Loading...";
         }
 
-        public string Nom = "";
-        public int Progress = 0;
-
-        private void LoadingFileDialog_Load(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
-            backgroundWorker1.RunWorkerAsync();
-            FUI.FilePath = Nom;
+            backgroundWorker.RunWorkerAsync(_objectData);
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void DoWork(object sender, DoWorkEventArgs e)
         {
+            byte[] data = (byte[])e.Argument;
+            int offset = 0;
 
-            Thread Nt = new Thread(() =>
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.TimelineCount * 0x1c, ref offset),
+                ref _fuiFile.timelines, _fuiFile.header.TimelineCount, 0x1c);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.TimelineActionCount * 0x84, ref offset),
+                ref _fuiFile.timelineActions, _fuiFile.header.TimelineActionCount, 0x84);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.ShapeCount * 0x1c, ref offset),
+                ref _fuiFile.shapes, _fuiFile.header.ShapeCount, 0x1c);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.ShapeComponentCount * 0x2c, ref offset),
+                ref _fuiFile.shapeComponents, _fuiFile.header.ShapeComponentCount, 0x2c);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.VertCount * 0x8, ref offset),
+                ref _fuiFile.verts, _fuiFile.header.VertCount, 0x8);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.TimelineFrameCount * 0x48, ref offset),
+                ref _fuiFile.timelineFrames, _fuiFile.header.TimelineFrameCount, 0x48);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.TimelineEventCount * 0x48, ref offset),
+                ref _fuiFile.timelineEvents, _fuiFile.header.TimelineEventCount, 0x48);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.TimelineEventNameCount * 0x40, ref offset),
+                ref _fuiFile.timelineEventNames, _fuiFile.header.TimelineEventNameCount, 0x40);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.ReferenceCount * 0x48, ref offset),
+                ref _fuiFile.references, _fuiFile.header.ReferenceCount, 0x48);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.EdittextCount * 0x138, ref offset),
+                ref _fuiFile.edittexts, _fuiFile.header.EdittextCount, 0x138);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.FontNameCount * 0x104, ref offset),
+                ref _fuiFile.fontNames, _fuiFile.header.FontNameCount, 0x104);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.SymbolCount * 0x48, ref offset),
+                ref _fuiFile.symbols, _fuiFile.header.SymbolCount, 0x48);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.ImportAssetCount * 0x40, ref offset),
+                ref _fuiFile.importAssets, _fuiFile.header.ImportAssetCount, 0x40);
+
+            ParseObjectBuffer
+                (CopyData(data, _fuiFile.header.BitmapCount * 0x20, ref offset),
+                ref _fuiFile.bitmaps, _fuiFile.header.BitmapCount, 0x20);
+        }
+
+        private void ParseObjectBuffer<T>(byte[] ObjectBuffer, ref List<T> ObjectList, int ElementCount, int ElementSize) where T : IFuiObject, new()
+        {
+            for (int offset = 0; offset < ElementCount * ElementSize;)
             {
-                Thread.CurrentThread.IsBackground = true;
-                FUIFunct.OpenFUI(Nom, FUI, true);
-            });
-            Nt.Start();
-            Thread some_thread = new Thread
-            (delegate ()
+                T fuiObject = new T();
+                fuiObject.Parse(CopyData(ObjectBuffer, ElementSize, ref offset));
+                ObjectList.Add(fuiObject);
+            }
+            Invoke((MethodInvoker)delegate
             {
-
-                {
-                    for (int i = 0; i < 1;)
-                    {
-                        Invoke((MethodInvoker)delegate
-                        {
-                            progressBar1.Maximum = FUI.TotalProgress;
-                            while (progressBar1.Value < FUI.TotalProgress)
-                            {
-                                label1.Text = ("Loading new FourJUI File: " + (FUI.CurrentProgress) + "/" + FUI.TotalProgress);
-                                label2.Text = FUI.status;
-                                progressBar1.Value = FUI.CurrentProgress;
-                                if (FUI.CurrentProgress == FUI.TotalProgress)
-                                {
-                                    i++;
-                                }
-                            }
-                            label1.Text = ("Loading new FourJUI File: " + (FUI.CurrentProgress) + "/" + FUI.TotalProgress);
-                            label2.Text = FUI.status;
-                        });
-                    }
-                    //this.Close();
-                }
+                progressBar.Value += ElementCount;
+                FUIFileNameLabel.Text = $"Loading FUI File Objects: {progressBar.Value}/{progressBar.Maximum}";
             });
-            some_thread.Start();
         }
 
-        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private byte[] CopyData(byte[] Source, int Size, ref int Offset)
         {
+            byte[] Buffer = new byte[Size];
+            Array.Copy(Source, Offset, Buffer, 0, Size);
+            Offset += Size;
+            return Buffer;
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Thread.Sleep(500);
+            Close();
         }
     }
 }

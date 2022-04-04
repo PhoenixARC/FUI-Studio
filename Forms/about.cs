@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace FUI_Studio.Forms
 {
-    public partial class about : Form
+    public partial class About : Form
     {
-        public about()
+        public About()
         {
             InitializeComponent();
         }
