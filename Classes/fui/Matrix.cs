@@ -51,7 +51,7 @@ namespace FUI_Studio.Classes.fui
                 $"Rotation Skew 0: {RotSkew0}\n" +
                 $"Rotation Skew 1: {RotSkew1}\n" +
                 $"Translate X: {TranslateX}\n" +
-                $"Translate Y: {TranslateY}";
+                $"Translate Y: {TranslateY}\n";
         }
     }
 }
