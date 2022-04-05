@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class Shape : fui.IFuiObject
+    public class Shape : IFuiObject
     {
         public int UnknownValue1;
         public int ComponentIndex;

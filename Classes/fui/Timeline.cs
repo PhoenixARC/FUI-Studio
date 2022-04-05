@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class Timeline : fui.IFuiObject
+    public class Timeline : IFuiObject
     {
         public int symbolIndex;
         public Int16 frameIndex;

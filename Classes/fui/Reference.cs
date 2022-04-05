@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class Reference : fui.IFuiObject
+    public class Reference : IFuiObject
     {
         public int SymbolIndex;
         public string Name;
@@ -35,7 +35,8 @@ namespace FUI_Studio.Classes.fui
         public override string ToString()
         {
             return $"Symbol Index: {SymbolIndex}\n" +
-                $"Name: {Name}\nObject Index: {Index}";
+                $"Object Index: {Index}\n" +
+                $"Name: {Name}";
         }
     }
 }

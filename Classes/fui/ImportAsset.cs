@@ -3,7 +3,7 @@ using System.Text;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class ImportAsset : fui.IFuiObject
+    public class ImportAsset : IFuiObject
     {
         public string assetName;
         public int GetByteSize()
@@ -22,7 +22,7 @@ namespace FUI_Studio.Classes.fui
         {
             var arr = new byte[GetByteSize()];
             Encoding.UTF8.GetBytes(assetName, 0, 0x40, arr, 0);
-            return arr; 
+            return arr;
         }
 
         public override string ToString()

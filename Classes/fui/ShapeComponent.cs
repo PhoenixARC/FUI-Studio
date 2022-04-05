@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class ShapeComponent : fui.IFuiObject
+    public class ShapeComponent : IFuiObject
     {
         public FillStyle fillInfo;
         public int vertIndex;

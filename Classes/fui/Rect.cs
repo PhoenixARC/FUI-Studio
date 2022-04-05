@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class Rect : fui.IFuiObject
+    public class Rect : IFuiObject
     {
         public float minX;
         public float maxX;
@@ -41,7 +41,7 @@ namespace FUI_Studio.Classes.fui
 
         public override string ToString()
         {
-            return $"{maxX - minX}x{maxY - minY}";
+            return $"{maxX - minX} x {maxY - minY}";
         }
     }
 }

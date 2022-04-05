@@ -2,7 +2,7 @@
 
 namespace FUI_Studio.Classes.fui
 {
-    public class FontName : fui.IFuiObject
+    public class FontName : IFuiObject
     {
         public int Unknown1;
         public string Fontname;

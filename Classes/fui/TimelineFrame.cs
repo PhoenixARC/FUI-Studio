@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class TimelineFrame : fui.IFuiObject
+    public class TimelineFrame : IFuiObject
     {
         public string FrameName;
         public int EventIndex;
@@ -37,9 +37,9 @@ namespace FUI_Studio.Classes.fui
 
         public override string ToString()
         {
-            return $"Frame Name: {FrameName}\n" +
-                $"Event Index: {EventIndex}\n" +
-                $"Event Count: {EventCount}";
+            return $"Event Index: {EventIndex}\n" +
+                $"Event Count: {EventCount}\n" +
+                $"Frame Name: {FrameName}";
         }
     }
 }

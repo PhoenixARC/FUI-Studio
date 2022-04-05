@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
 {
-    public class TimelineAction : fui.IFuiObject
+    public class TimelineAction : IFuiObject
     {
         public Int16 ActionType;
         public Int16 Unknown;
