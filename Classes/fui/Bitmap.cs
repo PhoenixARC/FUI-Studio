@@ -2,7 +2,7 @@
 
 namespace FUI_Studio.Classes.fui
 {
-    public class FuiBitmap : fui.IFuiObject
+    public class FuiBitmap : IFuiObject
     {
         public int symbolIndex;
         public eFuiBitmapType format;
@@ -11,14 +11,15 @@ namespace FUI_Studio.Classes.fui
         public int offset;
         public int size;
         public int zlib_data_size;
-        public int __0x1C;
+        public int texture_handle;
 
-        public enum eFuiBitmapType
+        public enum eFuiBitmapType : int
         {
-            PNG_WITH_ALPHA_DATA = 1, //! fully ignored
-            PNG_NO_ALPHA_DATA = 3,   //! fully ignored
+            PNG_WITH_ALPHA_DATA = 1,
+            PNG_NO_ALPHA_DATA = 3,
+            PNG_DATA_UNKNOWN = 4,
             JPEG_NO_ALPHA_DATA = 6,
-            JPEG_UNKNOWN = 7, //! TODO: find name
+            JPEG_UNKNOWN = 7,
             JPEG_WITH_ALPHA_DATA = 8
         }
 
@@ -38,7 +39,7 @@ namespace FUI_Studio.Classes.fui
             offset = BitConverter.ToInt32(data, 16);
             size = BitConverter.ToInt32(data, 20);
             zlib_data_size = BitConverter.ToInt32(data, 24);
-            __0x1C = BitConverter.ToInt32(data, 28);
+            texture_handle = BitConverter.ToInt32(data, 28);
         }
 
         public byte[] ToArray()
@@ -51,7 +52,7 @@ namespace FUI_Studio.Classes.fui
             BitConverter.GetBytes(offset).CopyTo(arr, 16);
             BitConverter.GetBytes(size).CopyTo(arr, 20);
             BitConverter.GetBytes(zlib_data_size).CopyTo(arr, 24);
-            BitConverter.GetBytes(__0x1C).CopyTo(arr, 28);
+            BitConverter.GetBytes(texture_handle).CopyTo(arr, 28);
             return arr;
         }
 
