@@ -39,13 +39,13 @@ namespace FourJ
                     fsStream.Read(header_buffer, 0, FUI.header.GetByteSize());
                     int fileOffset = FUI.header.GetByteSize();
                     FUI.header.Parse(header_buffer);
-                    int dataSize = FUI.header.ContentSize - FUI.header.imagesSize;
+                    int dataSize = FUI.header.ContentSize - FUI.header.ImagesSize;
                     byte[] data = new byte[dataSize];
                     fsStream.Seek(fileOffset, SeekOrigin.Begin);
                     fsStream.Read(data, 0, dataSize);
                     fsStream.Seek(fileOffset + dataSize, SeekOrigin.Begin);
-                    byte[] imgRawData = new byte[FUI.header.imagesSize];
-                    fsStream.Read(imgRawData, 0, FUI.header.imagesSize);
+                    byte[] imgRawData = new byte[FUI.header.ImagesSize];
+                    fsStream.Read(imgRawData, 0, FUI.header.ImagesSize);
                     new LoadingFileDialog(ref FUI, data).ShowDialog();
                     foreach(var bitmap in FUI.bitmaps)
                     {

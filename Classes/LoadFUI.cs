@@ -33,7 +33,7 @@ namespace FUI_Studio.Classes
 
         public static TreeNode ConstructTreeNode(in FourJ.UserInterface.FUIFile fui, int FuiIndex)
         {
-            TreeNode rootNode = new TreeNode(fui.header.SwfFileName.Replace("\0", ""));
+            TreeNode rootNode = new TreeNode(fui.header.ImportName.Replace("\0", ""));
 
             rootNode.Tag = FuiIndex;
             rootNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
