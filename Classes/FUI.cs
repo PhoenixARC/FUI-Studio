@@ -57,32 +57,32 @@ namespace FourJ
                 return FUI;
             }
 
-            public void Build(string fileName)
+            public byte[] Build()
             {
                 UpdateHeaderCounts();
                 AdjustFuiBitmapInfo();
                 header.ContentSize = CalculateContentSize() + header.ImagesSize;
 
-
-                using (var fsStream = File.Create($"{fileName}.fui"))
+                using (var fuiStream = new MemoryStream())
                 {
-                    fsStream.Write(header.ToArray(), 0, header.GetByteSize());
-                    ConstructAndWriteObjectBuffer(fsStream, timelines);
-                    ConstructAndWriteObjectBuffer(fsStream, timelineActions);
-                    ConstructAndWriteObjectBuffer(fsStream, shapes);
-                    ConstructAndWriteObjectBuffer(fsStream, shapeComponents);
-                    ConstructAndWriteObjectBuffer(fsStream, verts);
-                    ConstructAndWriteObjectBuffer(fsStream, timelineFrames);
-                    ConstructAndWriteObjectBuffer(fsStream, timelineEvents);
-                    ConstructAndWriteObjectBuffer(fsStream, timelineEventNames);
-                    ConstructAndWriteObjectBuffer(fsStream, references);
-                    ConstructAndWriteObjectBuffer(fsStream, edittexts);
-                    ConstructAndWriteObjectBuffer(fsStream, fontNames);
-                    ConstructAndWriteObjectBuffer(fsStream, symbols);
-                    ConstructAndWriteObjectBuffer(fsStream, importAssets);
-                    ConstructAndWriteObjectBuffer(fsStream, bitmaps);
+                    fuiStream.Write(header.ToArray(), 0, header.GetByteSize());
+                    ConstructAndWriteObjectBuffer(fuiStream, timelines);
+                    ConstructAndWriteObjectBuffer(fuiStream, timelineActions);
+                    ConstructAndWriteObjectBuffer(fuiStream, shapes);
+                    ConstructAndWriteObjectBuffer(fuiStream, shapeComponents);
+                    ConstructAndWriteObjectBuffer(fuiStream, verts);
+                    ConstructAndWriteObjectBuffer(fuiStream, timelineFrames);
+                    ConstructAndWriteObjectBuffer(fuiStream, timelineEvents);
+                    ConstructAndWriteObjectBuffer(fuiStream, timelineEventNames);
+                    ConstructAndWriteObjectBuffer(fuiStream, references);
+                    ConstructAndWriteObjectBuffer(fuiStream, edittexts);
+                    ConstructAndWriteObjectBuffer(fuiStream, fontNames);
+                    ConstructAndWriteObjectBuffer(fuiStream, symbols);
+                    ConstructAndWriteObjectBuffer(fuiStream, importAssets);
+                    ConstructAndWriteObjectBuffer(fuiStream, bitmaps);
                     foreach (byte[] img in Images)
-                        fsStream.Write(img, 0, img.Length);
+                        fuiStream.Write(img, 0, img.Length);
+                    return fuiStream.ToArray();
                 }
             }
 
@@ -131,7 +131,7 @@ namespace FourJ
                     importAssets.Count*0x40 + bitmaps.Count*0x20;
             }
 
-            private void ConstructAndWriteObjectBuffer<T>(FileStream fs, List<T> objList) where T : IFuiObject
+            private void ConstructAndWriteObjectBuffer<T>(Stream fs, List<T> objList) where T : IFuiObject
             {
                 if (objList == null) throw new ArgumentNullException("obj list is null");
                 if (objList.Count == 0) return;

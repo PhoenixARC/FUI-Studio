@@ -327,7 +327,20 @@ namespace FUI_Studio.Forms
                 MessageBox.Show("Please select the node you want to save", "Save Error");
                 return;
             }
-            openFuiFiles[getRootIndex(FUIFileTreeView.SelectedNode)].Build("Test");
+
+            SaveFileDialog fuiSaveFileDialog = new SaveFileDialog();
+            fuiSaveFileDialog.Title = "Save fui file";
+            fuiSaveFileDialog.Filter = "Fui file | *.fui";
+            fuiSaveFileDialog.DefaultExt = ".fui";
+            if (fuiSaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (var fsStream = File.Create(fuiSaveFileDialog.FileName))
+                {
+                    var packedFuiFile = openFuiFiles[getRootIndex(FUIFileTreeView.SelectedNode)].Build();
+                    fsStream.Write(packedFuiFile, 0, packedFuiFile.Length);
+                }
+            }
+            fuiSaveFileDialog.Dispose();
         }
 
         private void settingsOnAutoUpdateClick(object sender, EventArgs e)
