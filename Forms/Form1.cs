@@ -84,19 +84,6 @@ namespace FUI_Studio.Forms
             openFuiFiles.Add(fui);
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var opf = new OpenFileDialog())
-            {
-                opf.Filter = "Fui file | *.fui";
-                if (opf.ShowDialog() == DialogResult.OK)
-                {
-                    //openFuiFiles.Clear();
-                    //FUIFileTreeView.Nodes.Clear();
-                    OpenFUI(opf.FileName);
-                }
-            }
-        }
 
         private void openWorkingDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -317,12 +304,30 @@ namespace FUI_Studio.Forms
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new Forms.About().ShowDialog();
+            new About().ShowDialog();
+        }
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var opf = new OpenFileDialog())
+            {
+                opf.Filter = "Fui file | *.fui";
+                if (opf.ShowDialog() == DialogResult.OK)
+                {
+                    openFuiFiles.Clear();
+                    FUIFileTreeView.Nodes.Clear();
+                    OpenFUI(opf.FileName);
+                }
+            }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+            if (FUIFileTreeView.SelectedNode == null)
+            {
+                MessageBox.Show("Please select the node you want to save", "Save Error");
+                return;
+            }
+            openFuiFiles[getRootIndex(FUIFileTreeView.SelectedNode)].Build("Test");
         }
 
         private void settingsOnAutoUpdateClick(object sender, EventArgs e)
