@@ -18,7 +18,7 @@ namespace FUI_Studio.Classes.fui
         {
             if (data == null) throw new ArgumentNullException("data");
             if (data.Length != GetByteSize()) throw new ArgumentException();
-            Encoding.ASCII.GetString(data, 0, 0x40);
+            EventName = Encoding.ASCII.GetString(data, 0, 0x40);
         }
 
         public byte[] ToArray()
