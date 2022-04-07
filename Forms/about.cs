@@ -16,10 +16,5 @@ namespace FUI_Studio.Forms
         {
             InitializeComponent();
         }
-
-        private void about_Load(object sender, EventArgs e)
-        {
-            label4.Text += Classes.Networking.ver;
-        }
     }
 }
