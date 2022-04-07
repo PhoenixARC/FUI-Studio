@@ -62,7 +62,7 @@ namespace FourJ
                 UpdateHeaderCounts();
                 AdjustFuiBitmapInfo();
                 header.ContentSize = CalculateContentSize() + header.ImagesSize;
-
+                byte[] fuiFileBuffer;
                 using (var fuiStream = new MemoryStream())
                 {
                     fuiStream.Write(header.ToArray(), 0, header.GetByteSize());
@@ -82,8 +82,9 @@ namespace FourJ
                     ConstructAndWriteObjectBuffer(fuiStream, bitmaps);
                     foreach (byte[] img in Images)
                         fuiStream.Write(img, 0, img.Length);
-                    return fuiStream.ToArray();
+                    fuiFileBuffer = fuiStream.ToArray();
                 }
+                return fuiFileBuffer;
             }
 
             private void UpdateHeaderCounts()
