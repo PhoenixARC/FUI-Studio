@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FUI_Studio.Classes.fui;
 using FUI_Studio.Forms;
 using System.Linq;
+using System;
 
 namespace FourJ
 {
@@ -35,9 +36,10 @@ namespace FourJ
                 FUI.FilePath = FilePath;
                 using (var fsStream = File.OpenRead(FilePath))
                 {
-                    byte[] header_buffer = new byte[FUI.header.GetByteSize()];
-                    fsStream.Read(header_buffer, 0, FUI.header.GetByteSize());
-                    int fileOffset = FUI.header.GetByteSize();
+                    int headerSize = FUI.header.GetByteSize();
+                    int fileOffset = headerSize;
+                    byte[] header_buffer = new byte[headerSize];
+                    fsStream.Read(header_buffer, 0, headerSize);
                     FUI.header.Parse(header_buffer);
                     int dataSize = FUI.header.ContentSize - FUI.header.ImagesSize;
                     byte[] data = new byte[dataSize];
@@ -55,9 +57,93 @@ namespace FourJ
                 return FUI;
             }
 
-            public void Build()
+            public void Build(string fileName)
             {
-                // TODO
+                UpdateHeaderCounts();
+                AdjustFuiBitmapInfo();
+                header.ContentSize = CalculateContentSize() + header.ImagesSize;
+
+
+                using (var fsStream = File.Create($"{fileName}.fui"))
+                {
+                    fsStream.Write(header.ToArray(), 0, header.GetByteSize());
+                    ConstructAndWriteObjectBuffer(fsStream, timelines);
+                    ConstructAndWriteObjectBuffer(fsStream, timelineActions);
+                    ConstructAndWriteObjectBuffer(fsStream, shapes);
+                    ConstructAndWriteObjectBuffer(fsStream, shapeComponents);
+                    ConstructAndWriteObjectBuffer(fsStream, verts);
+                    ConstructAndWriteObjectBuffer(fsStream, timelineFrames);
+                    ConstructAndWriteObjectBuffer(fsStream, timelineEvents);
+                    ConstructAndWriteObjectBuffer(fsStream, timelineEventNames);
+                    ConstructAndWriteObjectBuffer(fsStream, references);
+                    ConstructAndWriteObjectBuffer(fsStream, edittexts);
+                    ConstructAndWriteObjectBuffer(fsStream, fontNames);
+                    ConstructAndWriteObjectBuffer(fsStream, symbols);
+                    ConstructAndWriteObjectBuffer(fsStream, importAssets);
+                    ConstructAndWriteObjectBuffer(fsStream, bitmaps);
+                    foreach (byte[] img in Images)
+                        fsStream.Write(img, 0, img.Length);
+                }
+            }
+
+            private void UpdateHeaderCounts()
+            {
+                header.TimelineCount = timelines.Count;
+                header.TimelineActionCount = timelineActions.Count;
+                header.ShapeCount = shapes.Count;
+                header.ShapeComponentCount = shapeComponents.Count;
+                header.VertCount = verts.Count;
+                header.TimelineFrameCount = timelineFrames.Count;
+                header.TimelineEventCount = timelineEvents.Count;
+                header.TimelineEventNameCount = timelineEventNames.Count;
+                header.ReferenceCount = references.Count;
+                header.EdittextCount = edittexts.Count;
+                header.FontNameCount = fontNames.Count;
+                header.SymbolCount = symbols.Count;
+                header.ImportAssetCount = importAssets.Count;
+                header.BitmapCount = bitmaps.Count;
+            }
+
+            private void AdjustFuiBitmapInfo()
+            {
+                if (Images.Count != bitmaps.Count) throw new Exception("Counts are different"); // should never happen...
+                int offset = 0;
+                for (int i = 0; i < bitmaps.Count; i++)
+                {
+                    var bitmap = bitmaps[i];
+                    var img = Images[i];
+                    int size = img.Length;
+                    bitmap.offset = offset;
+                    bitmap.size = size;
+                    offset += size;
+                }
+                header.ImagesSize = offset;
+            }
+
+            private int CalculateContentSize()
+            {
+                return timelines.Count*0x1c + timelineActions.Count*0x84 +
+                    shapes.Count*0x1c + shapeComponents.Count*0x2c +
+                    verts.Count*0x8 + timelineFrames.Count*0x48 +
+                    timelineEvents.Count*0x48 + timelineEventNames.Count*0x40 +
+                    references.Count*0x48 + edittexts.Count*0x138 +
+                    fontNames.Count*0x104 + symbols.Count*0x48 +
+                    importAssets.Count*0x40 + bitmaps.Count*0x20;
+            }
+
+            private void ConstructAndWriteObjectBuffer<T>(FileStream fs, List<T> objList) where T : IFuiObject
+            {
+                if (objList == null) throw new ArgumentNullException("obj list is null");
+                if (objList.Count == 0) return;
+                int objByteSize = objList[0].GetByteSize();
+                byte[] buffer = new byte[objList.Count * objByteSize];
+                int offset = 0;
+                foreach (T obj in objList)
+                {
+                    obj.ToArray().CopyTo(buffer, offset);
+                    offset += objByteSize;
+                }
+                fs.Write(buffer, 0, buffer.Length);
             }
         }
     }
