@@ -35,6 +35,7 @@ namespace FUI_Studio.Classes.fui
             BitConverter.GetBytes(UnknownValue1).CopyTo(arr, 0);
             BitConverter.GetBytes(ComponentIndex).CopyTo(arr, 4);
             BitConverter.GetBytes(ComponentCount).CopyTo(arr, 8);
+            Rectangle.ToArray().CopyTo(arr, 12);
             return arr;
         }
 

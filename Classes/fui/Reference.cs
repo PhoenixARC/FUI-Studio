@@ -28,7 +28,9 @@ namespace FUI_Studio.Classes.fui
         public byte[] ToArray()
         {
             var arr = new byte[GetByteSize()];
-
+            BitConverter.GetBytes(SymbolIndex).CopyTo(arr, 0);
+            Encoding.UTF8.GetBytes(Name, 0, 0x40, arr, 4);
+            BitConverter.GetBytes(Index).CopyTo(arr, 0x44);
             return arr;
         }
 

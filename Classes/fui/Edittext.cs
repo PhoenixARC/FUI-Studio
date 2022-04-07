@@ -6,7 +6,6 @@ namespace FUI_Studio.Classes.fui
 {
     public class Edittext : fui.IFuiObject
     {
-
         public enum eFuiAlignment : int
         {
             LEFT = 0,
@@ -61,7 +60,19 @@ namespace FUI_Studio.Classes.fui
         public byte[] ToArray()
         {
             var arr = new byte[GetByteSize()];
-
+            BitConverter.GetBytes(Unknown1).CopyTo(arr, 0);
+            size.ToArray().CopyTo(arr, 4);
+            BitConverter.GetBytes(fontId).CopyTo(arr, 20);
+            BitConverter.GetBytes(fontScale).CopyTo(arr, 24);
+            Color.ToArray().CopyTo(arr, 28);
+            BitConverter.GetBytes((int)alignment).CopyTo(arr, 32);
+            BitConverter.GetBytes(unk_0x24).CopyTo(arr, 36);
+            BitConverter.GetBytes(unk_0x28).CopyTo(arr, 40);
+            BitConverter.GetBytes(unk_0x2C).CopyTo(arr, 44);
+            BitConverter.GetBytes(unk_0x30).CopyTo(arr, 48);
+            BitConverter.GetBytes(unk_0x34).CopyTo(arr, 52);
+            BitConverter.GetBytes(unk_0x35).CopyTo(arr, 53);
+            Encoding.ASCII.GetBytes(htmlTextFormat, 0, 0x100, arr, 56);
             return arr;
         }
 
