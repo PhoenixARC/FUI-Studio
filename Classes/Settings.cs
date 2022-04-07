@@ -5,18 +5,13 @@ namespace FUI_Studio.Classes
 {
     static public class Settings
     {
-        public static bool CheckForUpdates { get; set; }
-        public static bool IsPortable { get; set; }
+        public static bool CheckForUpdates { get; set; } = false;
+        public static bool IsPortable { get; set; } = false;
         public static string TempDir { get; set; }
 
         private static void InitializeSettingsFile()
         {
-            File.WriteAllText(Environment.CurrentDirectory + "/settings.ini",
-                "**Settings**\n" +
-                " * you can change any variable here or in the editor!\n" +
-                $"IsPortable = {IsPortable.ToString().ToLower()}\n" +
-                $"AutoUpdate = {CheckForUpdates.ToString().ToLower()}\n"
-                );
+            Save();
         }
 
         public static void Load()
