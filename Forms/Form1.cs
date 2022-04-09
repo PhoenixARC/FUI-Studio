@@ -73,7 +73,6 @@ namespace FUI_Studio.Forms
             {
                 Directory.Delete(dir, true);
             }
-            Application.Exit();
         }
 
         public void OpenFUI(string fuiFilepath)
@@ -184,79 +183,44 @@ namespace FUI_Studio.Forms
 
         private void extractToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            switch (FUIFileTreeView.SelectedNode.Text)
+            var SelectedNode = FUIFileTreeView.SelectedNode;
+            var SelectedParentNode = SelectedNode.Parent;
+            if (SelectedParentNode == null) return;
+            int nodeIndex = SelectedNode.Index;
+            FUIFile fui = openFuiFiles[getRootIndex(SelectedNode)];
+            if (fui == null) return;
+            switch (SelectedParentNode.Text)
             {
-                case ("images"):
-                    FolderBrowserDialog fbd = new FolderBrowserDialog();
-                    fbd.RootFolder = Environment.SpecialFolder.UserProfile;
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    Directory.CreateDirectory(fbd.SelectedPath + "\\images\\");
-
-                    int i = 0;
-                    foreach (string file in Directory.GetFiles(Settings.TempDir + Path.GetFileName(FUIFileTreeView.SelectedNode.Parent.Text) + "\\images\\"))
+                case "Bitmaps":
+                    MemoryStream fs = new MemoryStream(fui.Images[nodeIndex]);
+                    var bitmapInfo = fui.bitmaps[nodeIndex];
+                    Bitmap img = new Bitmap(Image.FromStream(fs));
+                    string ext = ".jpeg";
+                    string filter = "jpeg | *.jpeg";
+                    ImageFormat format = ImageFormat.Png;
+                    if ((int)bitmapInfo.format < 6)
                     {
-                        try
-                        {
-                            File.Copy(Settings.TempDir + Path.GetFileName(FUIFileTreeView.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".png", fbd.SelectedPath + "\\images\\" + FUIFileTreeView.SelectedNode.Nodes[i].Text, true);
-                        }
-                        catch
-                        {
-                            File.Copy(Settings.TempDir + Path.GetFileName(FUIFileTreeView.SelectedNode.Parent.Text) + "\\images\\Tile" + i + ".jpg", fbd.SelectedPath + "\\images\\" + FUIFileTreeView.SelectedNode.Nodes[i].Text, true);
-                        }
-                        i++;
+                        img = ImageProcessor.ReverseColorRB(img);
+                        ext = ".png";
+                        filter = "png | *.png";
+                        format = ImageFormat.Png;
                     }
-
-                }
-                break;
-                case ("Font"):
-                    FolderBrowserDialog fbd2 = new FolderBrowserDialog();
-                    fbd2.RootFolder = Environment.SpecialFolder.UserProfile;
-                    if (fbd2.ShowDialog() == DialogResult.OK)
+                    using (var imageSaveDialog = new SaveFileDialog())
                     {
-                        Console.WriteLine(fbd2.SelectedPath);
-                        Console.WriteLine(fbd2.SelectedPath + "\\Font\\");
-                        Directory.CreateDirectory(fbd2.SelectedPath + "\\Font\\");
-                        foreach (TreeNode file in FUIFileTreeView.SelectedNode.Nodes)
+                        imageSaveDialog.Title = "Extract image to";
+                        imageSaveDialog.DefaultExt = ext;
+                        imageSaveDialog.Filter = filter;
+                        imageSaveDialog.FileName = bitmapInfo.symbolIndex != -1 ? fui.symbols[bitmapInfo.symbolIndex].Name : "";
+                        if (imageSaveDialog.ShowDialog() == DialogResult.OK)
                         {
-                            Console.WriteLine(fbd2.SelectedPath + "\\Font\\" + file.Text);
-                            Console.WriteLine(file.Tag.ToString());
-                            File.AppendAllText(fbd2.SelectedPath + "\\Font\\" + file.Text.Replace(".fnt",".html"), file.Tag.ToString() + "\n");
+                            img.Save(imageSaveDialog.FileName, format);
                         }
                     }
                     break;
+
+                default:
+                    break;
             }
-            try
-            {
-                string selectedImage = FUIFileTreeView.SelectedNode.Tag.ToString();
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Title = "Save File";
-                if (FUIFileTreeView.SelectedNode.Text.EndsWith(".png"))
-                {
-                    sfd.Filter = "PNG Image|*.png";
-                }
-                else if (FUIFileTreeView.SelectedNode.Text.EndsWith(".jpg"))
-                {
-                    sfd.Filter = "JPEG Image |*.jpg";
-                }
-                else
-                {
-                    MessageBox.Show("Unsupported Extraction");
-                }
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    object NodeTag = FUIFileTreeView.SelectedNode.Tag;
-
-                    MemoryStream fs = new MemoryStream(File.ReadAllBytes(NodeTag.ToString()));
-                    System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(Image.FromStream(fs));
-                    Classes.ImageProcessor.ReverseColorRB(bmp);
-                    bmp.Save(sfd.FileName, ImageFormat.Png);
-
-                    File.Copy(selectedImage, sfd.FileName, true);
-                }
-            }
-            catch { }
-
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
