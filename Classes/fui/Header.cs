@@ -44,21 +44,21 @@ namespace FUI_Studio.Classes.fui
             ContentSize = BitConverter.ToInt32(data, 8);
             ImportName = Encoding.ASCII.GetString(data, 12, 0x40);
 
-            TimelineCount = BitConverter.ToInt32(data, 0x4c);
-            TimelineEventNameCount = BitConverter.ToInt32(data, 0x50);
-            TimelineActionCount = BitConverter.ToInt32(data, 0x54);
-            ShapeCount = BitConverter.ToInt32(data, 0x5c);
-            ShapeComponentCount = BitConverter.ToInt32(data, 0x58);
-            VertCount = BitConverter.ToInt32(data, 0x60);
-            TimelineFrameCount = BitConverter.ToInt32(data, 0x64);
-            TimelineEventCount = BitConverter.ToInt32(data, 0x68);
-            ReferenceCount = BitConverter.ToInt32(data, 0x6c);
-            EdittextCount = BitConverter.ToInt32(data, 0x70);
-            SymbolCount = BitConverter.ToInt32(data, 0x74);
-            BitmapCount = BitConverter.ToInt32(data, 0x78);
-            ImagesSize = BitConverter.ToInt32(data, 0x7c);
-            FontNameCount = BitConverter.ToInt32(data, 0x80);
-            ImportAssetCount = BitConverter.ToInt32(data, 0x84);
+            TimelineCount           = BitConverter.ToInt32(data, 0x4c);
+            TimelineEventNameCount  = BitConverter.ToInt32(data, 0x50);
+            TimelineActionCount     = BitConverter.ToInt32(data, 0x54);
+            ShapeCount              = BitConverter.ToInt32(data, 0x58);
+            ShapeComponentCount     = BitConverter.ToInt32(data, 0x5c);
+            VertCount               = BitConverter.ToInt32(data, 0x60);
+            TimelineFrameCount      = BitConverter.ToInt32(data, 0x64);
+            TimelineEventCount      = BitConverter.ToInt32(data, 0x68);
+            ReferenceCount          = BitConverter.ToInt32(data, 0x6c);
+            EdittextCount           = BitConverter.ToInt32(data, 0x70);
+            SymbolCount             = BitConverter.ToInt32(data, 0x74);
+            BitmapCount             = BitConverter.ToInt32(data, 0x78);
+            ImagesSize              = BitConverter.ToInt32(data, 0x7c);
+            FontNameCount           = BitConverter.ToInt32(data, 0x80);
+            ImportAssetCount    = BitConverter.ToInt32(data, 0x84);
             StageSize.Parse(data.Skip(0x88).ToArray()); 
         }
 
