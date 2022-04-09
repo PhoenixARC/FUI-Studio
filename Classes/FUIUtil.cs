@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using FUI_Studio.Classes.fui;
 using static FUI_Studio.Forms.Form1;
 
 namespace FUI_Studio.Classes
