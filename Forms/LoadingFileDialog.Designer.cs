@@ -29,57 +29,49 @@ namespace FUI_Studio.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.FUIFileNameLabel = new System.Windows.Forms.Label();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 66);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(389, 23);
-            this.progressBar1.TabIndex = 0;
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(12, 44);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(406, 23);
+            this.progressBar.TabIndex = 0;
             // 
-            // label1
+            // FUIFileNameLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(120, 18);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(146, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Loading new FourJUI File: %s";
+            this.FUIFileNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.FUIFileNameLabel.AutoSize = true;
+            this.FUIFileNameLabel.Location = new System.Drawing.Point(177, 9);
+            this.FUIFileNameLabel.Name = "FUIFileNameLabel";
+            this.FUIFileNameLabel.Size = new System.Drawing.Size(63, 13);
+            this.FUIFileNameLabel.TabIndex = 1;
+            this.FUIFileNameLabel.Text = "DummyText";
             // 
-            // label2
+            // backgroundWorker
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(120, 40);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(21, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "%b";
-            // 
-            // backgroundWorker1
-            // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.DoWork);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.RunWorkerCompleted);
             // 
             // LoadingFileDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(415, 114);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.progressBar1);
+            this.ClientSize = new System.Drawing.Size(430, 79);
+            this.Controls.Add(this.FUIFileNameLabel);
+            this.Controls.Add(this.progressBar);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoadingFileDialog";
             this.Text = "Loading New FUI";
-            this.Load += new System.EventHandler(this.LoadingFileDialog_Load);
+            this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -87,9 +79,8 @@ namespace FUI_Studio.Forms
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        public System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Label FUIFileNameLabel;
+        public System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }

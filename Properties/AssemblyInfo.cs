@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("FUI Studio")]
 [assembly: AssemblyDescription("A program to open and edit FUI Files")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("PhoenixARC")]
+[assembly: AssemblyCompany("PhoenixARC, Miku-666")]
 [assembly: AssemblyProduct("FUI Studio")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]

@@ -53,8 +53,7 @@ namespace FUI_Studio.Classes
             int pFrom = St.IndexOf(start) + start.Length;
             int pTo = St.LastIndexOf(end);
 
-            string result = St.Substring(pFrom, pTo - pFrom);
-            return result;
+            return St.Substring(pFrom, pTo - pFrom);
         }
 
         public static bool isAlphaNumeric(string strToCheck)

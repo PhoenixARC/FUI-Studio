@@ -19,7 +19,7 @@ namespace FUI_Studio.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -63,6 +63,16 @@ namespace FUI_Studio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BaseIcon {
+            get {
+                object obj = ResourceManager.GetObject("BaseIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap element {
             get {
                 object obj = ResourceManager.GetObject("element", resourceCulture);
@@ -83,20 +93,10 @@ namespace FUI_Studio.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap font {
+        internal static System.Drawing.Bitmap FontIcon {
             get {
-                object obj = ResourceManager.GetObject("font", resourceCulture);
+                object obj = ResourceManager.GetObject("FontIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] FuiIMGData_Enc {
-            get {
-                object obj = ResourceManager.GetObject("FuiIMGData_Enc", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
@@ -106,16 +106,6 @@ namespace FUI_Studio.Properties {
         internal static System.Drawing.Bitmap ImgIcon {
             get {
                 object obj = ResourceManager.GetObject("ImgIcon", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap metaa {
-            get {
-                object obj = ResourceManager.GetObject("metaa", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -31,39 +31,38 @@ namespace FUI_Studio.Forms
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.FUIFileTreeView = new System.Windows.Forms.TreeView();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.extractToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replaceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MenuBar = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openWorkingDirectoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsIsPortable = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.testingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CheckDBMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.UPDATEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new FUI_Studio.PictureBoxWithInterpolationMode();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.MenuBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // treeView1
+            // FUIFileTreeView
             // 
-            this.treeView1.ContextMenuStrip = this.contextMenuStrip1;
-            resources.ApplyResources(this.treeView1, "treeView1");
-            this.treeView1.Name = "treeView1";
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            this.FUIFileTreeView.ContextMenuStrip = this.contextMenuStrip1;
+            resources.ApplyResources(this.FUIFileTreeView, "FUIFileTreeView");
+            this.FUIFileTreeView.Name = "FUIFileTreeView";
+            this.FUIFileTreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.FUIFileTreeView_BeforeSelect);
             // 
             // contextMenuStrip1
             // 
@@ -91,23 +90,21 @@ namespace FUI_Studio.Forms
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             resources.ApplyResources(this.removeToolStripMenuItem, "removeToolStripMenuItem");
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
             resources.ApplyResources(this.addToolStripMenuItem, "addToolStripMenuItem");
             // 
-            // menuStrip1
+            // MenuBar
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.openWorkingDirectoryToolStripMenuItem,
-            this.helpToolStripMenuItem,
-            this.CheckDBMenuItem,
-            this.UPDATEToolStripMenuItem});
-            resources.ApplyResources(this.menuStrip1, "menuStrip1");
-            this.menuStrip1.Name = "menuStrip1";
+            this.settingsToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            resources.ApplyResources(this.MenuBar, "MenuBar");
+            this.MenuBar.Name = "MenuBar";
             // 
             // fileToolStripMenuItem
             // 
@@ -136,11 +133,37 @@ namespace FUI_Studio.Forms
             resources.ApplyResources(this.openWorkingDirectoryToolStripMenuItem, "openWorkingDirectoryToolStripMenuItem");
             this.openWorkingDirectoryToolStripMenuItem.Click += new System.EventHandler(this.openWorkingDirectoryToolStripMenuItem_Click);
             // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.settingsCheckForUpdates,
+            this.settingsIsPortable,
+            this.saveToolStripMenuItem1});
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            resources.ApplyResources(this.settingsToolStripMenuItem, "settingsToolStripMenuItem");
+            // 
+            // settingsCheckForUpdates
+            // 
+            this.settingsCheckForUpdates.Name = "settingsCheckForUpdates";
+            resources.ApplyResources(this.settingsCheckForUpdates, "settingsCheckForUpdates");
+            this.settingsCheckForUpdates.Click += new System.EventHandler(this.settingsOnAutoUpdateClick);
+            // 
+            // settingsIsPortable
+            // 
+            this.settingsIsPortable.Name = "settingsIsPortable";
+            resources.ApplyResources(this.settingsIsPortable, "settingsIsPortable");
+            this.settingsIsPortable.Click += new System.EventHandler(this.settingsOnIsPortableClick);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            resources.ApplyResources(this.saveToolStripMenuItem1, "saveToolStripMenuItem1");
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.settingsSaveClicked);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aboutToolStripMenuItem,
-            this.testingToolStripMenuItem});
+            this.aboutToolStripMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
@@ -149,26 +172,6 @@ namespace FUI_Studio.Forms
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // testingToolStripMenuItem
-            // 
-            this.testingToolStripMenuItem.Name = "testingToolStripMenuItem";
-            resources.ApplyResources(this.testingToolStripMenuItem, "testingToolStripMenuItem");
-            this.testingToolStripMenuItem.Click += new System.EventHandler(this.testingToolStripMenuItem_Click);
-            // 
-            // CheckDBMenuItem
-            // 
-            this.CheckDBMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.CheckDBMenuItem.Name = "CheckDBMenuItem";
-            resources.ApplyResources(this.CheckDBMenuItem, "CheckDBMenuItem");
-            this.CheckDBMenuItem.Click += new System.EventHandler(this.CheckDBMenuItem_Click);
-            // 
-            // UPDATEToolStripMenuItem
-            // 
-            this.UPDATEToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.UPDATEToolStripMenuItem.Name = "UPDATEToolStripMenuItem";
-            resources.ApplyResources(this.UPDATEToolStripMenuItem, "UPDATEToolStripMenuItem");
-            this.UPDATEToolStripMenuItem.Click += new System.EventHandler(this.UPDATEToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -181,6 +184,7 @@ namespace FUI_Studio.Forms
             // 
             resources.ApplyResources(this.richTextBox1, "richTextBox1");
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
             // 
             // pictureBox1
             // 
@@ -189,30 +193,21 @@ namespace FUI_Studio.Forms
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // checkBox1
-            // 
-            resources.ApplyResources(this.checkBox1, "checkBox1");
-            this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = false;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.treeView1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.FUIFileTreeView);
+            this.Controls.Add(this.MenuBar);
+            this.MainMenuStrip = this.MenuBar;
             this.Name = "Form1";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BeforeClosing);
+            this.Load += new System.EventHandler(this.OnLoad);
             this.contextMenuStrip1.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MenuBar.ResumeLayout(false);
+            this.MenuBar.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -222,8 +217,8 @@ namespace FUI_Studio.Forms
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.TreeView FUIFileTreeView;
+        private System.Windows.Forms.MenuStrip MenuBar;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
@@ -234,14 +229,14 @@ namespace FUI_Studio.Forms
         private System.Windows.Forms.RichTextBox richTextBox1;
         private FUI_Studio.PictureBoxWithInterpolationMode pictureBox1;
         private System.Windows.Forms.ToolStripMenuItem openWorkingDirectoryToolStripMenuItem;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem UPDATEToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem CheckDBMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem testingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsCheckForUpdates;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem settingsIsPortable;
     }
 }
 

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace FUI_Studio.Forms
 {
-    public partial class about : Form
+    public partial class About : Form
     {
-        public about()
+        public About()
         {
             InitializeComponent();
-        }
-
-        private void about_Load(object sender, EventArgs e)
-        {
-            label4.Text += Classes.Networking.ver;
         }
     }
 }
