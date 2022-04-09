@@ -40,7 +40,8 @@ namespace FUI_Studio.Classes.fui
 
         public override string ToString()
         {
-            return "TODO: implement Parse and ToArray..";
+            return $"Id: {Id}\n" +
+                $"Name: {Name}";
         }
     }
 }
