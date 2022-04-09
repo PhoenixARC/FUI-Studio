@@ -4,6 +4,7 @@ using FUI_Studio.Classes.fui;
 using FUI_Studio.Forms;
 using System.Linq;
 using System;
+using System.Windows.Forms;
 
 namespace FourJ
 {
@@ -37,21 +38,20 @@ namespace FourJ
                 using (var fsStream = File.OpenRead(FilePath))
                 {
                     int headerSize = FUI.header.GetByteSize();
-                    int fileOffset = headerSize;
+                    fsStream.Seek(0, SeekOrigin.Begin);
                     byte[] header_buffer = new byte[headerSize];
                     fsStream.Read(header_buffer, 0, headerSize);
                     FUI.header.Parse(header_buffer);
                     int dataSize = FUI.header.ContentSize - FUI.header.ImagesSize;
                     byte[] data = new byte[dataSize];
-                    fsStream.Seek(fileOffset, SeekOrigin.Begin);
                     fsStream.Read(data, 0, dataSize);
-                    fsStream.Seek(fileOffset + dataSize, SeekOrigin.Begin);
+                    var loadingScreen = new LoadingFileDialog(ref FUI, data);
                     byte[] imgRawData = new byte[FUI.header.ImagesSize];
                     fsStream.Read(imgRawData, 0, FUI.header.ImagesSize);
-                    new LoadingFileDialog(ref FUI, data).ShowDialog();
-                    foreach(var bitmap in FUI.bitmaps)
+                    if (loadingScreen.ShowDialog() == DialogResult.OK)
                     {
-                        FUI.Images.Add(imgRawData.Skip(bitmap.offset).Take(bitmap.size).ToArray());
+                        foreach (var bitmap in FUI.bitmaps)
+                            FUI.Images.Add(imgRawData.Skip(bitmap.offset).Take(bitmap.size).ToArray());
                     }
                 }
                 return FUI;
