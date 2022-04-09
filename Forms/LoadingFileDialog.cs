@@ -5,6 +5,8 @@ using System.Threading;
 using System.Windows.Forms;
 using static FourJ.UserInterface;
 using FUI_Studio.Classes.fui;
+using System.IO;
+using System.Linq;
 
 namespace FUI_Studio.Forms
 {
@@ -31,71 +33,74 @@ namespace FUI_Studio.Forms
         private void DoWork(object sender, DoWorkEventArgs e)
         {
             byte[] data = (byte[])e.Argument;
-            int offset = 0;
+
+            var MemStream = new MemoryStream(data);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.TimelineCount * 0x1c, ref offset),
-                ref _fuiFile.timelines, _fuiFile.header.TimelineCount, 0x1c);
+                (MemStream,
+                ref _fuiFile.timelines, _fuiFile.header.TimelineCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.TimelineActionCount * 0x84, ref offset),
-                ref _fuiFile.timelineActions, _fuiFile.header.TimelineActionCount, 0x84);
+                (MemStream,
+                ref _fuiFile.timelineActions, _fuiFile.header.TimelineActionCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.ShapeCount * 0x1c, ref offset),
-                ref _fuiFile.shapes, _fuiFile.header.ShapeCount, 0x1c);
+                (MemStream,
+                ref _fuiFile.shapes, _fuiFile.header.ShapeCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.ShapeComponentCount * 0x2c, ref offset),
-                ref _fuiFile.shapeComponents, _fuiFile.header.ShapeComponentCount, 0x2c);
+                (MemStream,
+                ref _fuiFile.shapeComponents, _fuiFile.header.ShapeComponentCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.VertCount * 0x8, ref offset),
-                ref _fuiFile.verts, _fuiFile.header.VertCount, 0x8);
+                (MemStream,
+                ref _fuiFile.verts, _fuiFile.header.VertCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.TimelineFrameCount * 0x48, ref offset),
-                ref _fuiFile.timelineFrames, _fuiFile.header.TimelineFrameCount, 0x48);
+                (MemStream,
+                ref _fuiFile.timelineFrames, _fuiFile.header.TimelineFrameCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.TimelineEventCount * 0x48, ref offset),
-                ref _fuiFile.timelineEvents, _fuiFile.header.TimelineEventCount, 0x48);
+                (MemStream,
+                ref _fuiFile.timelineEvents, _fuiFile.header.TimelineEventCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.TimelineEventNameCount * 0x40, ref offset),
-                ref _fuiFile.timelineEventNames, _fuiFile.header.TimelineEventNameCount, 0x40);
+                (MemStream,
+                ref _fuiFile.timelineEventNames, _fuiFile.header.TimelineEventNameCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.ReferenceCount * 0x48, ref offset),
-                ref _fuiFile.references, _fuiFile.header.ReferenceCount, 0x48);
+                (MemStream,
+                ref _fuiFile.references, _fuiFile.header.ReferenceCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.EdittextCount * 0x138, ref offset),
-                ref _fuiFile.edittexts, _fuiFile.header.EdittextCount, 0x138);
+                (MemStream,
+                ref _fuiFile.edittexts, _fuiFile.header.EdittextCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.FontNameCount * 0x104, ref offset),
-                ref _fuiFile.fontNames, _fuiFile.header.FontNameCount, 0x104);
+                (MemStream,
+                ref _fuiFile.fontNames, _fuiFile.header.FontNameCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.SymbolCount * 0x48, ref offset),
-                ref _fuiFile.symbols, _fuiFile.header.SymbolCount, 0x48);
+                (MemStream,
+                ref _fuiFile.symbols, _fuiFile.header.SymbolCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.ImportAssetCount * 0x40, ref offset),
-                ref _fuiFile.importAssets, _fuiFile.header.ImportAssetCount, 0x40);
+                (MemStream,
+                ref _fuiFile.importAssets, _fuiFile.header.ImportAssetCount);
 
             ParseObjectBuffer
-                (CopyData(data, _fuiFile.header.BitmapCount * 0x20, ref offset),
-                ref _fuiFile.bitmaps, _fuiFile.header.BitmapCount, 0x20);
+                (MemStream,
+                ref _fuiFile.bitmaps, _fuiFile.header.BitmapCount);
         }
 
-        private void ParseObjectBuffer<T>(byte[] ObjectBuffer, ref List<T> ObjectList, int ElementCount, int ElementSize) where T : IFuiObject, new()
+        private void ParseObjectBuffer<T>(Stream buffer, ref List<T> ObjectList, int ElementCount) where T : IFuiObject, new()
         {
-            for (int offset = 0; offset < ElementCount * ElementSize;)
+            for (int i = 0; i < ElementCount; i++)
             {
                 T fuiObject = new T();
-                fuiObject.Parse(CopyData(ObjectBuffer, ElementSize, ref offset));
+                byte[] ObjectBuffer = new byte[fuiObject.GetByteSize()];
+                buffer.Read(ObjectBuffer, 0, fuiObject.GetByteSize());
+                fuiObject.Parse(ObjectBuffer);
                 ObjectList.Add(fuiObject);
             }
             Invoke((MethodInvoker)delegate
@@ -105,16 +110,9 @@ namespace FUI_Studio.Forms
             });
         }
 
-        private byte[] CopyData(byte[] Source, int Size, ref int Offset)
-        {
-            byte[] Buffer = new byte[Size];
-            Array.Copy(Source, Offset, Buffer, 0, Size);
-            Offset += Size;
-            return Buffer;
-        }
-
         private void RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            DialogResult = DialogResult.OK;
             Thread.Sleep(500);
             Close();
         }
