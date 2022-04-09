@@ -18,7 +18,7 @@ namespace FUI_Studio.Classes.fui
         public int fontId;
         public float fontScale;
         public RGBA Color;
-        public eFuiAlignment alignment; // order could be wrong
+        public eFuiAlignment alignment;
 
         public float unk_0x24;
         public float unk_0x28;
