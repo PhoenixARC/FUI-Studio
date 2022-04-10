@@ -36,16 +36,14 @@ namespace FourJ
                 FUI.FilePath = FilePath;
                 using (var fsStream = File.OpenRead(FilePath))
                 {
+                    fsStream.Seek(0, SeekOrigin.Begin);
                     int headerSize = FUI.header.GetByteSize();
-                    int fileOffset = headerSize;
                     byte[] header_buffer = new byte[headerSize];
                     fsStream.Read(header_buffer, 0, headerSize);
                     FUI.header.Parse(header_buffer);
                     int dataSize = FUI.header.ContentSize - FUI.header.ImagesSize;
                     byte[] data = new byte[dataSize];
-                    fsStream.Seek(fileOffset, SeekOrigin.Begin);
                     fsStream.Read(data, 0, dataSize);
-                    fsStream.Seek(fileOffset + dataSize, SeekOrigin.Begin);
                     byte[] imgRawData = new byte[FUI.header.ImagesSize];
                     fsStream.Read(imgRawData, 0, FUI.header.ImagesSize);
                     new LoadingFileDialog(ref FUI, data).ShowDialog();
