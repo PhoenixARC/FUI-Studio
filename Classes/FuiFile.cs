@@ -28,31 +28,27 @@ namespace FourJ
             public List<FuiBitmap> bitmaps = new List<FuiBitmap>();
             public List<byte[]> Images = new List<byte[]>();
 
-            public string FilePath = "";
+            public FUIFile(Stream stream)
+            {
+                int headerSize = header.GetByteSize();
+                byte[] header_buffer = new byte[headerSize];
+                stream.Read(header_buffer, 0, headerSize);
+                header.Parse(header_buffer);
+                int dataSize = header.ContentSize - header.ImagesSize;
+                byte[] data = new byte[dataSize];
+                stream.Read(data, 0, dataSize);
+                byte[] imgRawData = new byte[header.ImagesSize];
+                stream.Read(imgRawData, 0, header.ImagesSize);
+                new LoadingFileDialog(this, data).ShowDialog();
+                foreach (var bitmap in bitmaps)
+                {
+                    Images.Add(imgRawData.Skip(bitmap.offset).Take(bitmap.size).ToArray());
+                }
+            }
 
             public static FUIFile Open(string FilePath)
             {
-                var FUI = new FUIFile();
-                FUI.FilePath = FilePath;
-                using (var fsStream = File.OpenRead(FilePath))
-                {
-                    fsStream.Seek(0, SeekOrigin.Begin);
-                    int headerSize = FUI.header.GetByteSize();
-                    byte[] header_buffer = new byte[headerSize];
-                    fsStream.Read(header_buffer, 0, headerSize);
-                    FUI.header.Parse(header_buffer);
-                    int dataSize = FUI.header.ContentSize - FUI.header.ImagesSize;
-                    byte[] data = new byte[dataSize];
-                    fsStream.Read(data, 0, dataSize);
-                    byte[] imgRawData = new byte[FUI.header.ImagesSize];
-                    fsStream.Read(imgRawData, 0, FUI.header.ImagesSize);
-                    new LoadingFileDialog(ref FUI, data).ShowDialog();
-                    foreach(var bitmap in FUI.bitmaps)
-                    {
-                        FUI.Images.Add(imgRawData.Skip(bitmap.offset).Take(bitmap.size).ToArray());
-                    }
-                }
-                return FUI;
+                return new FUIFile(File.OpenRead(FilePath));
             }
 
             public byte[] Build()
