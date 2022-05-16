@@ -145,18 +145,15 @@ namespace FUI_Studio.Forms
             FUIFile fui = openFuiFiles[GetRootIndex(SelectedNode)];
             if (fui == null) throw new NullReferenceException("fui is null");
             var fuiBitmap = SelectedNode.Tag as FuiBitmap;
-            int nodeIndex = fui.bitmaps.IndexOf(fuiBitmap);
-            MemoryStream fs = new MemoryStream(fui.Images[nodeIndex]);
-            var bitmapInfo = fui.bitmaps[nodeIndex];
+            MemoryStream fs = new MemoryStream(fui.Images[fui.bitmaps.IndexOf(fuiBitmap)]);
             Bitmap img = new Bitmap(fs);
-            fs.Dispose();
-            string ext = ".jpeg";
-            string filter = "jpeg | *.jpeg";
+            string ext = "jpg";
+            string filter = "jpg | *.jpg";
             ImageFormat format = ImageFormat.Jpeg;
-            if ((int)bitmapInfo.format < 6)
+            if ((int)fuiBitmap.format < 6)
             {
                 ImageProcessor.ReverseColorRB(img);
-                ext = ".png";
+                ext = "png";
                 filter = "png | *.png";
                 format = ImageFormat.Png;
             }
@@ -165,12 +162,13 @@ namespace FUI_Studio.Forms
                 imageSaveDialog.Title = "Extract image";
                 imageSaveDialog.DefaultExt = ext;
                 imageSaveDialog.Filter = filter;
-                imageSaveDialog.FileName = fui.symbols[bitmapInfo.symbolIndex].Name;
+                imageSaveDialog.FileName = SelectedNode.Text;
                 if (imageSaveDialog.ShowDialog() == DialogResult.OK)
                 {
                     img.Save(imageSaveDialog.FileName, format);
                 }
             }
+            fs.Dispose();
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
