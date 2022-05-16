@@ -15,7 +15,7 @@ namespace FUI_Studio.Forms
         private FUIFile _fuiFile;
         private byte[] _objectData;
 
-        public LoadingFileDialog(ref FUIFile fuiFile, byte[] objectData)
+        public LoadingFileDialog(FUIFile fuiFile, byte[] objectData)
         {
             InitializeComponent();
             _fuiFile = fuiFile;
