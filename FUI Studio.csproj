@@ -98,7 +98,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\FUI.cs" />
+    <Compile Include="Classes\FuiFile.cs" />
+    <Compile Include="Classes\FuiShapeWrapper.cs" />
     <Compile Include="Classes\fui\Bitmap.cs" />
     <Compile Include="Classes\fui\ColorTransform.cs" />
     <Compile Include="Classes\fui\Edittext.cs" />
@@ -122,7 +123,7 @@
     <Compile Include="Classes\fui\Vert.cs" />
     <Compile Include="Classes\HexTools.cs" />
     <Compile Include="Classes\ImageProcessor.cs" />
-    <Compile Include="Classes\LoadFUI.cs" />
+    <Compile Include="Classes\FUIUtil.cs" />
     <Compile Include="Classes\Networking.cs" />
     <Compile Include="Classes\PictureBoxWithInterpolationMode.cs">
       <SubType>Component</SubType>
