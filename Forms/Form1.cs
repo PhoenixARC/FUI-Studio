@@ -55,21 +55,21 @@ namespace FUI_Studio.Forms
             if (settingsCheckForUpdates.Checked = Settings.CheckForUpdates)
                 Networking.checkUpdate();
 
-            try
-            {
-                Directory.CreateDirectory(Settings.TempDir);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            //try
+            //{
+            //    Directory.CreateDirectory(Settings.TempDir);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex.ToString());
+            //}
         }
         private void BeforeClosing(object sender, FormClosingEventArgs e)
         {
-            foreach (string dir in Directory.GetDirectories(Settings.TempDir))
-            {
-                Directory.Delete(dir, true);
-            }
+            //foreach (string dir in Directory.GetDirectories(Settings.TempDir))
+            //{
+            //    Directory.Delete(dir, true);
+            //}
         }
 
         public void OpenFUI(string fuiFilepath)
@@ -211,11 +211,10 @@ namespace FUI_Studio.Forms
                     replacement_bitmap_data.Save(img_stream, imgFormat);
                     pictureBox1.Image = replacement_bitmap_data;
                     var fuiBitmap = SelectedNode.Tag as FuiBitmap;
-                    int nodeIndex = fui.bitmaps.IndexOf(fuiBitmap);
-                    fui.bitmaps[nodeIndex].format = fuiBitmapFormat;
-                    fui.bitmaps[nodeIndex].width = replacement_bitmap_data.Width;
-                    fui.bitmaps[nodeIndex].height = replacement_bitmap_data.Height;
-                    fui.Images[nodeIndex] = img_stream.ToArray();
+                    fuiBitmap.format = fuiBitmapFormat;
+                    fuiBitmap.width = replacement_bitmap_data.Width;
+                    fuiBitmap.height = replacement_bitmap_data.Height;
+                    fui.Images[fui.bitmaps.IndexOf(fuiBitmap)] = img_stream.ToArray();
                 }
             }
         }
