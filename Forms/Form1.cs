@@ -41,7 +41,6 @@ namespace FUI_Studio.Forms
             imageList.Images.Add(Properties.Resources.FontIcon);
             imageList.Images.Add(Properties.Resources.element);
             FUIFileTreeView.ImageList = imageList;
-            pictureBox1.InterpolationMode = InterpolationMode.NearestNeighbor;
 
             if (args.Length > 0 && File.Exists(args[0]) && args[0].EndsWith(".fui"))
                 OpenFUI(args[0]);
@@ -50,9 +49,7 @@ namespace FUI_Studio.Forms
         private void OnLoad(object sender, EventArgs e)
         {
             Settings.Load();
-            if (settingsIsPortable.Checked = Settings.IsPortable)
-                Settings.TempDir = Environment.CurrentDirectory + "\\Fui Studio\\";
-            else
+            if (!(settingsIsPortable.Checked = Settings.IsPortable))
                 Settings.TempDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/Fui Studio/";
 
             if (settingsCheckForUpdates.Checked = Settings.CheckForUpdates)
@@ -78,8 +75,7 @@ namespace FUI_Studio.Forms
         public void OpenFUI(string fuiFilepath)
         {
             var fui = FUIFile.Open(fuiFilepath);
-            var fuiFileIndex = FUIFileTreeView.GetNodeCount(false);
-            FUIFileTreeView.Nodes.Add(FUIUtil.ConstructTreeNode(fui, fuiFileIndex));
+            FUIFileTreeView.Nodes.Add(FUIUtil.ConstructFuiTreeNode(fui));
             openFuiFiles.Add(fui);
         }
 
@@ -90,179 +86,139 @@ namespace FUI_Studio.Forms
         }
 
 
-        private int getRootIndex(TreeNode node)
+        private int GetRootIndex(TreeNode node)
         {
-            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node == null) throw new ArgumentNullException(node.Text);
             if (node.Parent == null) return node.Index;
-            return getRootIndex(node.Parent);
+            return GetRootIndex(node.Parent);
         }
 
         private void FUIFileTreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
         {
-            richTextBox1.Text = null;
+            richTextBox1.Clear();
+            pictureBox1.Hide();
+            extractToolStripMenuItem.Enabled = false;
+            replaceToolStripMenuItem.Enabled = false;
             var SelectedNode = e.Node;
-            var SelectedParentNode = SelectedNode.Parent;
-            if (SelectedParentNode == null) return;
-            int index = SelectedNode.Index;
-            FUIFile fui = openFuiFiles[getRootIndex(SelectedNode)];
+            if (SelectedNode == null || SelectedNode.Tag == null) return;
+            FUIFile fui = openFuiFiles[GetRootIndex(SelectedNode)];
             if (fui == null) return;
-            switch(SelectedParentNode.Text)
+            if (SelectedNode.Tag is Image)
             {
-                case "Timelines":
-                    richTextBox1.Text = fui.timelines[index].ToString();
-                    break;
+                var img = SelectedNode.Tag as Image;
+                pictureBox1.Image = img;
+                pictureBox1.Show();
+            }
+            if (!(SelectedNode.Tag is IFuiObject)) return;
 
-                case "TimelineActions":
-                    richTextBox1.Text = fui.timelineActions[index].ToString();
-                    break;
-
-                case "TimelineFrames":
-                    richTextBox1.Text = fui.timelineFrames[index].ToString();
-                    break;
-
-                case "TimelineEvents":
-                    richTextBox1.Text = fui.timelineEvents[index].ToString();
-                    break;
-
-                case "TimelineEventNames":
-                    richTextBox1.Text = fui.timelineEventNames[index].ToString();
-                    break;
-
-                case "Verts":
-                    richTextBox1.Text = fui.verts[index].ToString();
-                    break;
-
-                case "Shapes":
-                    richTextBox1.Text = fui.shapes[index].ToString();
-                    break;
-
-                case "ShapeComponents":
-                    richTextBox1.Text = fui.shapeComponents[index].ToString();
-                    break;
-
-                case "References":
-                    richTextBox1.Text = fui.references[index].ToString();
-                    break;
-
-                case "EditTexts":
-                    richTextBox1.Text = fui.edittexts[index].ToString();
-                    break;
-
-                case "FontNames":
-                    richTextBox1.Text = fui.fontNames[index].ToString();
-                    break;
-
-                case "Symbols":
-                    richTextBox1.Text = fui.symbols[index].ToString();
-                    break;
-
-                case "ImportAssets":
-                    richTextBox1.Text = fui.importAssets[index].ToString();
-                    break;
-
-                case "Bitmaps":
-                    MemoryStream fs = new MemoryStream(fui.Images[index]);
-                    var bitmapInfo = fui.bitmaps[index];
-                    Bitmap img = new Bitmap(Image.FromStream(fs));
-                    if ((int)bitmapInfo.format < 6)
-                        img = ImageProcessor.ReverseColorRB(img);
-                    pictureBox1.Image = img;
-                    extractToolStripMenuItem.Enabled = true;
-                    replaceToolStripMenuItem.Enabled = true;
-                    richTextBox1.Text = bitmapInfo.ToString();
-                    break;
-
-                default:
-                    pictureBox1.Image = null;
-                    extractToolStripMenuItem.Enabled = false;
-                    replaceToolStripMenuItem.Enabled = false;
-                    richTextBox1.Text = fui.header.ToString();
-                    break;
+            var fuiObj = SelectedNode.Tag as IFuiObject;
+            richTextBox1.Text = fuiObj.ToString();
+            if (fuiObj is FuiBitmap)
+            {
+                extractToolStripMenuItem.Enabled = true;
+                replaceToolStripMenuItem.Enabled = true;
+                var fuiBitmap = fuiObj as FuiBitmap;
+                int img_index = fui.bitmaps.IndexOf(fuiBitmap);
+                var img = new Bitmap(new MemoryStream(fui.Images[img_index]));
+                if ((int)fuiBitmap.format < 6)
+                    ImageProcessor.ReverseColorRB(img);
+                pictureBox1.Image = img;
+                pictureBox1.Show();
+                return;
+            }
+            if (fuiObj is Timeline)
+            {
+                var fuiTimeline = fuiObj as Timeline;
             }
         }
 
         private void extractToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var SelectedNode = FUIFileTreeView.SelectedNode;
-            var SelectedParentNode = SelectedNode.Parent;
-            if (SelectedParentNode == null) return;
-            int nodeIndex = SelectedNode.Index;
-            FUIFile fui = openFuiFiles[getRootIndex(SelectedNode)];
-            if (fui == null) return;
-            switch (SelectedParentNode.Text)
+            if (SelectedNode == null) return;
+            if (!(SelectedNode.Tag is FuiBitmap))
             {
-                case "Bitmaps":
-                    MemoryStream fs = new MemoryStream(fui.Images[nodeIndex]);
-                    var bitmapInfo = fui.bitmaps[nodeIndex];
-                    Bitmap img = new Bitmap(Image.FromStream(fs));
-                    string ext = ".jpeg";
-                    string filter = "jpeg | *.jpeg";
-                    ImageFormat format = ImageFormat.Png;
-                    if ((int)bitmapInfo.format < 6)
-                    {
-                        img = ImageProcessor.ReverseColorRB(img);
-                        ext = ".png";
-                        filter = "png | *.png";
-                        format = ImageFormat.Png;
-                    }
-                    using (var imageSaveDialog = new SaveFileDialog())
-                    {
-                        imageSaveDialog.Title = "Extract image to";
-                        imageSaveDialog.DefaultExt = ext;
-                        imageSaveDialog.Filter = filter;
-                        imageSaveDialog.FileName = bitmapInfo.symbolIndex != -1 ? fui.symbols[bitmapInfo.symbolIndex].Name : "";
-                        if (imageSaveDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            img.Save(imageSaveDialog.FileName, format);
-                        }
-                    }
-                    break;
+                MessageBox.Show("The selected node does not seem to be an image", "Invalide node");
+                return;
+            }
 
-                default:
-                    break;
+            FUIFile fui = openFuiFiles[GetRootIndex(SelectedNode)];
+            if (fui == null) throw new NullReferenceException("fui is null");
+            var fuiBitmap = SelectedNode.Tag as FuiBitmap;
+            int nodeIndex = fui.bitmaps.IndexOf(fuiBitmap);
+            MemoryStream fs = new MemoryStream(fui.Images[nodeIndex]);
+            var bitmapInfo = fui.bitmaps[nodeIndex];
+            Bitmap img = new Bitmap(fs);
+            fs.Dispose();
+            string ext = ".jpeg";
+            string filter = "jpeg | *.jpeg";
+            ImageFormat format = ImageFormat.Jpeg;
+            if ((int)bitmapInfo.format < 6)
+            {
+                ImageProcessor.ReverseColorRB(img);
+                ext = ".png";
+                filter = "png | *.png";
+                format = ImageFormat.Png;
+            }
+            using (var imageSaveDialog = new SaveFileDialog())
+            {
+                imageSaveDialog.Title = "Extract image";
+                imageSaveDialog.DefaultExt = ext;
+                imageSaveDialog.Filter = filter;
+                imageSaveDialog.FileName = fui.symbols[bitmapInfo.symbolIndex].Name;
+                if (imageSaveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    img.Save(imageSaveDialog.FileName, format);
+                }
             }
         }
 
         private void replaceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog sfd = new OpenFileDialog();
-            sfd.Title = "replace File";
-            if (FUIFileTreeView.SelectedNode.Text.EndsWith(".png"))
+            var SelectedNode = FUIFileTreeView.SelectedNode;
+            if (SelectedNode == null) return;
+            if (!(SelectedNode.Tag is FuiBitmap))
             {
-                sfd.Filter = "PNG Image|*.png";
+                MessageBox.Show("The selected node does not seem to be an image", "Invalide node");
+                return;
             }
-            else if (FUIFileTreeView.SelectedNode.Text.EndsWith(".jpg"))
-            {
-                sfd.Filter = "JPEG Image|*.jpg";
-            }
-            else
-            {
-                MessageBox.Show("Unsupported replacement");
-            }
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                if (FUIFileTreeView.SelectedNode.Text.EndsWith(".png"))
-                {
-                    DialogResult dr = MessageBox.Show("Do you want to correct color on this image?",
-                      "PNG Replacement", MessageBoxButtons.YesNo);
-                    switch (dr)
-                    {
-                        case DialogResult.Yes:
-                            object NodeTag = FUIFileTreeView.SelectedNode.Tag;
 
-                            MemoryStream fs = new MemoryStream(File.ReadAllBytes(sfd.FileName));
-                            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(Image.FromStream(fs));
-                            Classes.ImageProcessor.ReverseColorRB(bmp);
-                            ImageConverter converter = new ImageConverter();
-                            byte[] ouutput = (byte[])converter.ConvertTo(bmp, typeof(byte[]));
-                            //bmp.Save(NodeTag.ToString(), ImageFormat.Png);
-                            File.WriteAllBytes(FUIFileTreeView.SelectedNode.Tag.ToString(), ouutput);
-                            break;
-                        case DialogResult.No:
-                            break;
+            FUIFile fui = openFuiFiles[GetRootIndex(SelectedNode)];
+            if (fui == null) return;
+            using (var sfd = new OpenFileDialog())
+            {
+                sfd.Title = "Replace file";
+                sfd.Filter = "PNG File (*.png)|*.png|JPEG File (*.jpeg)|*.jpeg|JPG (*jpg)|*.jpg";
+                sfd.CheckFileExists = true;
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var replacement_img = new MemoryStream(File.ReadAllBytes(sfd.FileName));
+                    var replacement_bitmap_data = new Bitmap(replacement_img);
+                    var fuiBitmapFormat = FuiBitmap.eFuiBitmapType.PNG_WITH_ALPHA_DATA;
+                    var imgFormat = ImageFormat.Png;
+
+                    if (sfd.FileName.EndsWith(".png"))
+                    {
+                        replacement_bitmap_data = ImageProcessor.ReverseColorRB(replacement_bitmap_data);
                     }
+                    else if (sfd.FileName.EndsWith(".jpg") || sfd.FileName.EndsWith(".jpeg"))
+                    {
+                        fuiBitmapFormat = FuiBitmap.eFuiBitmapType.JPEG_NO_ALPHA_DATA;
+                        imgFormat = ImageFormat.Jpeg;
+                    }
+                    else
+                        throw new NotSupportedException("Unsupported image file");
+
+                    var img_stream = new MemoryStream();
+                    replacement_bitmap_data.Save(img_stream, imgFormat);
+                    pictureBox1.Image = replacement_bitmap_data;
+                    var fuiBitmap = SelectedNode.Tag as FuiBitmap;
+                    int nodeIndex = fui.bitmaps.IndexOf(fuiBitmap);
+                    fui.bitmaps[nodeIndex].format = fuiBitmapFormat;
+                    fui.bitmaps[nodeIndex].width = replacement_bitmap_data.Width;
+                    fui.bitmaps[nodeIndex].height = replacement_bitmap_data.Height;
+                    fui.Images[nodeIndex] = img_stream.ToArray();
                 }
-                File.Copy(sfd.FileName, FUIFileTreeView.SelectedNode.Tag.ToString(), true);
             }
         }
 
@@ -272,39 +228,39 @@ namespace FUI_Studio.Forms
         }
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var opf = new OpenFileDialog())
+            using (var fuiOpenFileDialog = new OpenFileDialog())
             {
-                opf.Filter = "Fui file | *.fui";
-                if (opf.ShowDialog() == DialogResult.OK)
+                fuiOpenFileDialog.Filter = "Fui file | *.fui";
+                if (fuiOpenFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     openFuiFiles.Clear();
                     FUIFileTreeView.Nodes.Clear();
-                    OpenFUI(opf.FileName);
+                    OpenFUI(fuiOpenFileDialog.FileName);
                 }
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (FUIFileTreeView.SelectedNode == null)
+            var node = FUIFileTreeView.SelectedNode;
+            if (node == null)
             {
                 MessageBox.Show("Please select the node you want to save", "Save Error");
                 return;
             }
-
-            SaveFileDialog fuiSaveFileDialog = new SaveFileDialog();
-            fuiSaveFileDialog.Title = "Save fui file";
-            fuiSaveFileDialog.Filter = "Fui file | *.fui";
-            fuiSaveFileDialog.DefaultExt = ".fui";
-            if (fuiSaveFileDialog.ShowDialog() == DialogResult.OK)
+            int fuiIndex = GetRootIndex(node);
+            node = FUIFileTreeView.Nodes[fuiIndex];
+            using (var fuiSaveFileDialog = new SaveFileDialog())
             {
-                using (var fsStream = File.Create(fuiSaveFileDialog.FileName))
+                fuiSaveFileDialog.Title = "Save fui file";
+                fuiSaveFileDialog.Filter = "Fui file | *.fui";
+                fuiSaveFileDialog.DefaultExt = ".fui";
+                if (fuiSaveFileDialog.ShowDialog() != DialogResult.OK) return;
+                using (var fs = new FileStream(fuiSaveFileDialog.FileName, FileMode.Create))
                 {
-                    var packedFuiFile = openFuiFiles[getRootIndex(FUIFileTreeView.SelectedNode)].Build();
-                    fsStream.Write(packedFuiFile, 0, packedFuiFile.Length);
+                    openFuiFiles[fuiIndex].Build(fs);
                 }
             }
-            fuiSaveFileDialog.Dispose();
         }
 
         private void settingsOnAutoUpdateClick(object sender, EventArgs e)
