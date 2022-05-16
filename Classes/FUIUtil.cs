@@ -1,98 +1,104 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
+using static FourJ.UserInterface;
 using static FUI_Studio.Forms.Form1;
+using FUI_Studio.Classes.fui;
 
 namespace FUI_Studio.Classes
 {
-    // TODO find better class name
     static class FUIUtil
     {
-        private static void ExtendTreeNode<T>(in TreeNode node, in List<T> dataList,string  SubNodePrefix)
+        public static TreeNode ConstructFuiTreeNode(in FUIFile fui)
         {
-            if (dataList.Count == 0) return;
-            if (node.ImageIndex != (int)eTreeViewImgTag.FolderIcon)
-                node.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
-            for (int i = 0; i < dataList.Count; i++)
-            {
-                TreeNode subNode = new TreeNode($"{SubNodePrefix}{i}");
-                subNode.ImageIndex = (int)eTreeViewImgTag.BaseIcon;
-                node.Nodes.Add(subNode);
-            }
-        }
-
-        private static TreeNode fastConstructNode<T>(in List<T> dataList, string NodeName, string SubNodePrefix)
-        {
-            if (dataList.Count == 0) return null;
-            TreeNode fastConstructedNode = new TreeNode(NodeName);
-            fastConstructedNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
-            ExtendTreeNode(fastConstructedNode, dataList, SubNodePrefix);
-            return fastConstructedNode;
-        }
-
-        public static TreeNode ConstructTreeNode(in FourJ.UserInterface.FUIFile fui, int FuiIndex)
-        {
-            TreeNode rootNode = new TreeNode(fui.header.ImportName.Replace("\0", ""));
-
-            rootNode.Tag = FuiIndex;
+            TreeNode rootNode = new TreeNode(fui.header.ImportName);
             rootNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
 
-            var timelineNode = fastConstructNode(fui.timelines, "Timelines", "fuiTimeline");
-            if (timelineNode != null)
-                rootNode.Nodes.Add(timelineNode);
-            
-            var timelineFrameNode = fastConstructNode(fui.timelineFrames, "TimelineFrames", "fuiTimelineFrame");
-            if (timelineFrameNode  != null)
-                rootNode.Nodes.Add(timelineFrameNode);
-
-            var timelineEventNode = fastConstructNode(fui.timelineEvents, "TimelineEvents", "fuiTimelineEvent");
-            if (timelineEventNode != null)
-                rootNode.Nodes.Add(timelineEventNode);
-
-            var timelineEventNameNode = fastConstructNode(fui.timelineEventNames, "TimelineEventNames", "fuiTimelineEventName");
-            if (timelineEventNameNode != null)
-                rootNode.Nodes.Add(timelineEventNameNode);
-
-            var timelinActionNode = fastConstructNode(fui.timelineActions, "TimelineActions", "fuiTimelineAction");
-            if (timelinActionNode != null)
-                rootNode.Nodes.Add(timelinActionNode);
-
-            var shapeNode = fastConstructNode(fui.shapes, "Shapes", "fuiShape");
-            if (shapeNode != null)
-                rootNode.Nodes.Add(shapeNode);
-
-            var shapeComponentNode = fastConstructNode(fui.shapeComponents, "ShapeComponents", "fuiShapeComponent");
-            if (shapeComponentNode != null)
-                rootNode.Nodes.Add(shapeComponentNode);
-
-            var vertNode = fastConstructNode(fui.verts, "Verts", "fuiVert");
-            if (vertNode != null)
-                rootNode.Nodes.Add(vertNode);
-
-            var refNode = fastConstructNode(fui.references, "References", "fuiReference");
-            if (refNode != null)
-                rootNode.Nodes.Add(refNode);
-            
-            var edittextNode = fastConstructNode(fui.edittexts, "EditTexts", "fuiEditText");
-            if (edittextNode != null)
-                rootNode.Nodes.Add(edittextNode);
-            
-            var fontNameNode = fastConstructNode(fui.fontNames, "FontNames", "fuiFontName");
-            if (fontNameNode != null)
-                rootNode.Nodes.Add(fontNameNode);
-            
-            var symbolNode = fastConstructNode(fui.symbols, "Symbols", "fuiSymbol");
-            if (symbolNode != null)
-                rootNode.Nodes.Add(symbolNode);
-            
-            var importAssetNode = fastConstructNode(fui.importAssets, "ImportAssets", "fuiImportAsset");
-            if (importAssetNode != null)
-                rootNode.Nodes.Add(importAssetNode);
-
-            var bitmapNode = fastConstructNode(fui.bitmaps, "Bitmaps", "fuiBitmap");
-            if (bitmapNode != null)
-                rootNode.Nodes.Add(bitmapNode);
+            TreeNode[] nodes = { 
+                new TreeNode("Header",  (int)eTreeViewImgTag.BaseIcon,    (int)eTreeViewImgTag.Selected),
+                new TreeNode("Shapes",  (int)eTreeViewImgTag.FolderIcon,  (int)eTreeViewImgTag.Selected),
+                new TreeNode("Sprites", (int)eTreeViewImgTag.FolderIcon,  (int)eTreeViewImgTag.Selected),
+                new TreeNode("Images",  (int)eTreeViewImgTag.FolderIcon,  (int)eTreeViewImgTag.Selected),
+                new TreeNode("Frames",  (int)eTreeViewImgTag.FolderIcon,  (int)eTreeViewImgTag.Selected),
+                new TreeNode("Others",  (int)eTreeViewImgTag.FolderIcon,  (int)eTreeViewImgTag.Selected),
+            };
+            CreateNodesInternally(fui, nodes);
+            rootNode.Nodes.AddRange(nodes);
 
             return rootNode;
+        }
+
+
+        private static TreeNode[] createShapeNodes(FUIFile fui)
+        {
+            var children = new List<TreeNode>();
+
+            foreach (var shape in fui.shapes)
+            {
+                TreeNode node = new TreeNode();
+                node.Tag = FuiShapeWrapper.CreateImageFromShape(shape, fui);
+                children.Add(node);
+            }
+
+            return children.ToArray();
+        }
+
+        public static TreeNode[] CreateImageNodes(FUIFile fui)
+        {
+            var children = new List<TreeNode>();
+            foreach (var symbol in fui.symbols)
+            {
+                if (symbol == null) throw new NullReferenceException();
+                if (symbol.ObjectType != eFuiObjectType.BITMAP) continue;
+                
+                var imgNode = new TreeNode(symbol.Name);
+                imgNode.Tag = fui.bitmaps[symbol.Index];
+                imgNode.ImageIndex = (int)eTreeViewImgTag.ImgIcon;
+                children.Add(imgNode);
+            }
+            return children.ToArray();
+        }
+
+
+        private static void CreateNodesInternally(FUIFile fui, TreeNode[] nodes)
+        {
+            nodes[0].Tag = fui.header;
+            foreach (var symbol in fui.symbols)
+            {
+                if (symbol == null) throw new NullReferenceException();
+                if (symbol.ObjectType != eFuiObjectType.TIMELINE) continue;
+
+                var subNode = new TreeNode(symbol.Name);
+                var timeline = fui.timelines[symbol.Index];
+                subNode.ImageIndex = (int)eTreeViewImgTag.FolderIcon;
+
+                if (timeline.frameCount == 1 && timeline.actionCount == 0)
+                {
+                    subNode.ImageIndex = (int)eTreeViewImgTag.ElementIcon;
+                    var frame = fui.timelineFrames[timeline.frameIndex];
+                    var fuiEvent = fui.timelineEvents[frame.EventIndex];
+                    if (fuiEvent.NameIndex > -1)
+                    {
+                        string fuiEventName = fui.timelineEventNames[fuiEvent.NameIndex].EventName;
+                        subNode.Text = fuiEventName;
+                    }
+                    switch (fuiEvent.ObjectType)
+                    {
+                        case eFuiObjectType.SHAPE:
+                            subNode.Tag = FuiShapeWrapper.CreateImageFromShape(fui.shapes[fuiEvent.Index], fui);
+                            nodes[1].Nodes.Add(subNode);
+                            break;
+
+                        case eFuiObjectType.TIMELINE:
+                            nodes[2].Nodes.Add(subNode);
+                            break;
+                    }
+                    continue;
+                }
+                subNode.Tag = timeline;
+                nodes[4].Nodes.Add(subNode);
+            }
+            nodes[3].Nodes.AddRange(CreateImageNodes(fui));
         }
     }
 }
