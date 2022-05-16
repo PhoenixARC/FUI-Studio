@@ -51,34 +51,28 @@ namespace FourJ
                 return new FUIFile(File.OpenRead(FilePath));
             }
 
-            public byte[] Build()
+            public void Build(Stream stream)
             {
                 UpdateHeaderCounts();
                 AdjustFuiBitmapInfo();
                 header.ContentSize = CalculateContentSize() + header.ImagesSize;
-                byte[] fuiFileBuffer;
-                using (var fuiStream = new MemoryStream())
-                {
-                    fuiStream.Write(header.ToArray(), 0, header.GetByteSize());
-                    ConstructAndWriteObjectBuffer(fuiStream, timelines);
-                    ConstructAndWriteObjectBuffer(fuiStream, timelineActions);
-                    ConstructAndWriteObjectBuffer(fuiStream, shapes);
-                    ConstructAndWriteObjectBuffer(fuiStream, shapeComponents);
-                    ConstructAndWriteObjectBuffer(fuiStream, verts);
-                    ConstructAndWriteObjectBuffer(fuiStream, timelineFrames);
-                    ConstructAndWriteObjectBuffer(fuiStream, timelineEvents);
-                    ConstructAndWriteObjectBuffer(fuiStream, timelineEventNames);
-                    ConstructAndWriteObjectBuffer(fuiStream, references);
-                    ConstructAndWriteObjectBuffer(fuiStream, edittexts);
-                    ConstructAndWriteObjectBuffer(fuiStream, fontNames);
-                    ConstructAndWriteObjectBuffer(fuiStream, symbols);
-                    ConstructAndWriteObjectBuffer(fuiStream, importAssets);
-                    ConstructAndWriteObjectBuffer(fuiStream, bitmaps);
-                    foreach (byte[] img in Images)
-                        fuiStream.Write(img, 0, img.Length);
-                    fuiFileBuffer = fuiStream.ToArray();
-                }
-                return fuiFileBuffer;
+                stream.Write(header.ToArray(), 0, header.GetByteSize());
+                ConstructAndWriteObjectBuffer(stream, timelines);
+                ConstructAndWriteObjectBuffer(stream, timelineActions);
+                ConstructAndWriteObjectBuffer(stream, shapes);
+                ConstructAndWriteObjectBuffer(stream, shapeComponents);
+                ConstructAndWriteObjectBuffer(stream, verts);
+                ConstructAndWriteObjectBuffer(stream, timelineFrames);
+                ConstructAndWriteObjectBuffer(stream, timelineEvents);
+                ConstructAndWriteObjectBuffer(stream, timelineEventNames);
+                ConstructAndWriteObjectBuffer(stream, references);
+                ConstructAndWriteObjectBuffer(stream, edittexts);
+                ConstructAndWriteObjectBuffer(stream, fontNames);
+                ConstructAndWriteObjectBuffer(stream, symbols);
+                ConstructAndWriteObjectBuffer(stream, importAssets);
+                ConstructAndWriteObjectBuffer(stream, bitmaps);
+                foreach (byte[] img in Images)
+                    stream.Write(img, 0, img.Length);
             }
 
             private void UpdateHeaderCounts()
