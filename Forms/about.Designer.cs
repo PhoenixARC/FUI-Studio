@@ -30,14 +30,14 @@ namespace FUI_Studio.Forms
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(About));
-            this.label1 = new System.Windows.Forms.Label();
+            this.creditLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label1
+            // creditLabel
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
+            resources.ApplyResources(this.creditLabel, "creditLabel");
+            this.creditLabel.Name = "creditLabel";
             // 
             // label3
             // 
@@ -49,7 +49,7 @@ namespace FUI_Studio.Forms
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.creditLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -61,7 +61,7 @@ namespace FUI_Studio.Forms
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label creditLabel;
         private System.Windows.Forms.Label label3;
     }
 }
