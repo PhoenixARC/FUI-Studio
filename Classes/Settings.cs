@@ -7,7 +7,7 @@ namespace FUI_Studio.Classes
     {
         public static bool CheckForUpdates { get; set; } = false;
         public static bool IsPortable { get; set; } = false;
-        public static string TempDir { get; set; }
+        public static string TempDir { get; set; } = Environment.CurrentDirectory + "\\Fui Studio\\";
 
         private static void InitializeSettingsFile()
         {
