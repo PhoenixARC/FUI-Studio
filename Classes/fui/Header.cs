@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace FUI_Studio.Classes.fui
         public string Identifier = "IUF";
         public int Unknow = 0;
         public int ContentSize = 0;
-        public string ImportName = "";
+        public string ImportName = null;
         public int TimelineCount = 0;
         public int TimelineEventNameCount = 0;
         public int TimelineActionCount = 0;
@@ -58,7 +59,7 @@ namespace FUI_Studio.Classes.fui
             BitmapCount             = BitConverter.ToInt32(data, 0x78);
             ImagesSize              = BitConverter.ToInt32(data, 0x7c);
             FontNameCount           = BitConverter.ToInt32(data, 0x80);
-            ImportAssetCount    = BitConverter.ToInt32(data, 0x84);
+            ImportAssetCount        = BitConverter.ToInt32(data, 0x84);
             StageSize.Parse(data.Skip(0x88).ToArray()); 
         }
 

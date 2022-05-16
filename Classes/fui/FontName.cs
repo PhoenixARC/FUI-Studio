@@ -25,7 +25,7 @@ namespace FUI_Studio.Classes.fui
             if (data.Length != GetByteSize()) throw new ArgumentException();
 
             Id = BitConverter.ToInt32(data, 0);
-            Name = Encoding.ASCII.GetString(data, 0, 0x100);
+            Name = Encoding.UTF8.GetString(data, 0, 0x100);
         }
 
         public byte[] ToArray()
@@ -33,7 +33,7 @@ namespace FUI_Studio.Classes.fui
             var arr = new byte[GetByteSize()];
 
             BitConverter.GetBytes(Id).CopyTo(arr, 0);
-            Encoding.ASCII.GetBytes(Name, 0, 0x100, arr, 4);
+            Encoding.UTF8.GetBytes(Name, 0, 0x100, arr, 4);
 
             return arr;
         }

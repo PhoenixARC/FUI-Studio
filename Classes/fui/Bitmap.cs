@@ -17,7 +17,7 @@ namespace FUI_Studio.Classes.fui
         {
             PNG_WITH_ALPHA_DATA = 1,
             PNG_NO_ALPHA_DATA = 3,
-            PNG_DATA_UNKNOWN = 4,
+            PNG_UNKNOWN = 4,
             JPEG_NO_ALPHA_DATA = 6,
             JPEG_UNKNOWN = 7,
             JPEG_WITH_ALPHA_DATA = 8

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FUI_Studio.Classes.fui
@@ -26,8 +27,8 @@ namespace FUI_Studio.Classes.fui
             ActionType = data[0];
             unk_0x01 = data[1];
             FrameIndex = BitConverter.ToInt16(data, 2);
-            UnknownName1 = Encoding.ASCII.GetString(data, 4, 0x40);
-            UnknownName2 = Encoding.ASCII.GetString(data, 0x44, 0x40);
+            UnknownName1 = Encoding.UTF8.GetString(data, 4, 0x40);
+            UnknownName2 = Encoding.UTF8.GetString(data, 0x44, 0x40);
         }
 
         public byte[] ToArray()
@@ -36,18 +37,19 @@ namespace FUI_Studio.Classes.fui
             arr[0] = ActionType;
             arr[1] = unk_0x01;
             BitConverter.GetBytes(FrameIndex).CopyTo(arr, 2);
-            Encoding.ASCII.GetBytes(UnknownName1, 0, 0x40, arr, 0x4);
-            Encoding.ASCII.GetBytes(UnknownName2, 0, 0x40, arr, 0x44);
+            Encoding.UTF8.GetBytes(UnknownName1, 0, 0x40, arr, 0x4);
+            Encoding.UTF8.GetBytes(UnknownName2, 0, 0x40, arr, 0x44);
             return arr;
         }
 
         public override string ToString()
         {
-            return $"Action Type: {ActionType}\n" +
-                $"Unknown 0x01: {unk_0x01}\n" +
-                $"Frame Index: {FrameIndex}\n" +
-                $"Str Arg0: {UnknownName1}\n" +
-                $"Str Arg1: {UnknownName2}";
+            string str = $"Action Type: {ActionType}\n";
+            str += $"Unknown 0x01: {unk_0x01}\n";
+            str += $"Frame Index: {FrameIndex}\n";
+            str += $"Str Arg0: {UnknownName1}\n";
+            str += $"Str Arg1: {UnknownName2}\n";
+            return str;
         }
     }
 }

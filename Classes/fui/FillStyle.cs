@@ -13,6 +13,7 @@ namespace FUI_Studio.Classes.fui
         public enum eFuiFillType : int
         {
             COLOR = 1,
+            BITMAP = 5,
         }
 
         public int GetByteSize()

@@ -13,8 +13,8 @@ namespace FUI_Studio.Classes.fui
 
         public void Parse(byte[] data)
         {
-            if (data == null) return;
-            if (data.Length != GetByteSize()) return;
+            if (data == null) throw new ArgumentNullException("data");
+            if (data.Length != GetByteSize()) throw new ArgumentException();
             assetName = Encoding.UTF8.GetString(data);
         }
 

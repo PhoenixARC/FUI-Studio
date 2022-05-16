@@ -54,7 +54,7 @@ namespace FUI_Studio.Classes.fui
             unk_0x34 = BitConverter.ToBoolean(data, 52);
             unk_0x35 = BitConverter.ToBoolean(data, 53);
 
-            htmlTextFormat = Encoding.ASCII.GetString(data, 56, 0x100);
+            htmlTextFormat = Encoding.UTF8.GetString(data, 56, 0x100);
         }
 
         public byte[] ToArray()
@@ -72,7 +72,7 @@ namespace FUI_Studio.Classes.fui
             BitConverter.GetBytes(unk_0x30).CopyTo(arr, 48);
             BitConverter.GetBytes(unk_0x34).CopyTo(arr, 52);
             BitConverter.GetBytes(unk_0x35).CopyTo(arr, 53);
-            Encoding.ASCII.GetBytes(htmlTextFormat, 0, 0x100, arr, 56);
+            Encoding.UTF8.GetBytes(htmlTextFormat, 0, 0x100, arr, 56);
             return arr;
         }
 

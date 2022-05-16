@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,11 @@ namespace FUI_Studio.Classes.fui
             BitConverter.GetBytes(x).CopyTo(arr, 0);
             BitConverter.GetBytes(y).CopyTo(arr, 4);
             return arr;
+        }
+
+        public PointF GetPointF()
+        {
+            return new PointF(x, y);
         }
 
         public override string ToString()

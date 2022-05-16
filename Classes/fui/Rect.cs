@@ -39,6 +39,15 @@ namespace FUI_Studio.Classes.fui
             return arr;
         }
 
+        public SizeF GetSizeF()
+        {
+            return new SizeF(maxX - minX, maxY - minY);
+        }
+        public Size GetSize()
+        {
+            return new Size((int)(maxX - minX), (int)(maxY - minY));
+        }
+
         public override string ToString()
         {
             return $"{maxX - minX} x {maxY - minY}";
